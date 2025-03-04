@@ -3,236 +3,296 @@ import {
   Box,
   Container,
   Typography,
-  Paper,
   Grid,
   Card,
-  CardContent,
   Stack,
   Button,
   useTheme,
-  useMediaQuery,
-  Chip,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { keyframes } from '@emotion/react';
-import CampaignIcon from '@mui/icons-material/Campaign';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import PersonIcon from '@mui/icons-material/Person';
+import GroupIcon from '@mui/icons-material/Group';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import DataUsageIcon from '@mui/icons-material/DataUsage';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import DescriptionIcon from '@mui/icons-material/Description';
+import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { themeColors } from '../../theme';
-
-// Animation keyframes
-const gradientGlow = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-`;
-
-const pulseAnimation = keyframes`
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-`;
-
-// Styled components
-const NeonText = styled(Typography)({
-  background: 'linear-gradient(45deg, #00ff88 30%, #00b4d8 90%)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  textShadow: '0 0 10px rgba(0, 255, 136, 0.5)',
-});
-
-const PromotionCard = styled(Card)({
-  background: 'rgba(26, 26, 26, 0.9)',
-  borderRadius: '16px',
-  border: '1px solid rgba(0, 255, 136, 0.2)',
-  transition: 'all 0.3s ease',
-  position: 'relative',
-  overflow: 'hidden',
-  '&:hover': {
-    transform: 'translateY(-5px)',
-    boxShadow: '0 0 25px rgba(0, 255, 136, 0.3)',
-    animation: `${pulseAnimation} 1s ease-in-out`,
-  },
-});
-
-const StyledChip = styled(Chip)({
-  background: 'rgba(0, 255, 136, 0.1)',
-  color: '#00FF88',
-  border: '1px solid rgba(0, 255, 136, 0.2)',
-  '&:hover': {
-    background: 'rgba(0, 255, 136, 0.2)',
-  },
-});
-
-const IconWrapper = styled(Box)({
-  width: '48px',
-  height: '48px',
-  borderRadius: '50%',
-  background: 'rgba(0, 255, 136, 0.1)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginBottom: '16px',
-  '& .MuiSvgIcon-root': {
-    fontSize: '24px',
-    color: '#00FF88',
-  },
-});
-
-const promotions = [
-  {
-    id: 1,
-    title: 'Welcome Bonus',
-    description: 'Get 100% bonus on your first deposit up to ₹10,000',
-    icon: <CampaignIcon />,
-    endDate: '2024-12-31',
-    status: 'Active',
-    reward: '100%',
-    minDeposit: '₹1,000',
-  },
-  {
-    id: 2,
-    title: 'Weekly Cashback',
-    description: 'Earn 10% cashback on your weekly losses',
-    icon: <EmojiEventsIcon />,
-    endDate: '2024-12-31',
-    status: 'Active',
-    reward: '10%',
-    minDeposit: '₹5,000',
-  },
-  {
-    id: 3,
-    title: 'Referral Bonus',
-    description: 'Get ₹500 for each friend you refer',
-    icon: <TrendingUpIcon />,
-    endDate: '2024-12-31',
-    status: 'Active',
-    reward: '₹500',
-    minDeposit: '₹0',
-  },
-  {
-    id: 4,
-    title: 'Special Weekend',
-    description: 'Double commission on weekends',
-    icon: <LocalOfferIcon />,
-    endDate: '2024-12-31',
-    status: 'Active',
-    reward: '2x',
-    minDeposit: '₹0',
-  },
-];
+import { useNavigate } from 'react-router-dom';
 
 interface PromotionPageProps {
-  onThemeChange: (newTheme: keyof typeof themeColors) => void;
+  onThemeChange?: (newTheme: keyof typeof themeColors) => void;
 }
+
+const HeaderSection = styled(Box)(({ theme }) => ({
+  background: theme.palette.mode === 'dark' ? themeColors.green.primary : themeColors.green.primary,
+  color: theme.palette.mode === 'dark' ? themeColors.green.text : '#fff',
+  padding: '20px',
+  textAlign: 'center',
+  backdropFilter: 'blur(10px)',
+}));
+
+const StatsCard = styled(Card)(({ theme }) => ({
+  background: theme.palette.mode === 'dark' ? themeColors.green.cardBg : '#fff',
+  borderRadius: '12px',
+  padding: '15px',
+  marginBottom: '10px',
+  boxShadow: 'none',
+  border: `1px solid ${theme.palette.mode === 'dark' ? themeColors.green.border : '#eee'}`,
+  color: theme.palette.mode === 'dark' ? themeColors.green.text : 'inherit',
+}));
+
+const MenuButton = styled(Button)(({ theme }) => ({
+  justifyContent: 'flex-start',
+  width: '100%',
+  textAlign: 'left',
+  padding: '15px',
+  color: theme.palette.mode === 'dark' ? themeColors.green.text : '#333',
+  textTransform: 'none',
+  background: theme.palette.mode === 'dark' ? themeColors.green.cardBg : '#fff',
+  borderRadius: '12px',
+  marginBottom: '8px',
+  border: `1px solid ${theme.palette.mode === 'dark' ? themeColors.green.border : '#eee'}`,
+  boxShadow: 'none',
+  '&:hover': {
+    background: theme.palette.mode === 'dark' ? themeColors.green.hoverBg : '#f5f5f5',
+  },
+}));
+
+const InvitationButton = styled(Button)(({ theme }) => ({
+  background: theme.palette.mode === 'dark' ? themeColors.green.primary : theme.palette.primary.main,
+  color: theme.palette.mode === 'dark' ? themeColors.green.text : '#fff',
+  width: '100%',
+  padding: '12px',
+  borderRadius: '25px',
+  marginTop: '15px',
+  marginBottom: '15px',
+  '&:hover': {
+    background: theme.palette.mode === 'dark' ? themeColors.green.accent : theme.palette.primary.dark,
+  },
+}));
+
+const StatValue = styled(Typography)(({ theme }) => ({
+  fontSize: '24px',
+  fontWeight: 'bold',
+  color: theme.palette.mode === 'dark' ? themeColors.green.text : '#333',
+  margin: '5px 0',
+}));
+
+const StatLabel = styled(Typography)(({ theme }) => ({
+  fontSize: '12px',
+  color: theme.palette.mode === 'dark' ? themeColors.green.text : '#666',
+}));
+
+const IconWrapper = styled(Box)(({ theme }) => ({
+  color: theme.palette.mode === 'dark' ? themeColors.green.primary : theme.palette.primary.main,
+}));
 
 const PromotionPage: React.FC<PromotionPageProps> = ({ onThemeChange }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
+  const isDarkMode = theme.palette.mode === 'dark';
 
-  const handleThemeChange = () => {
-    const newTheme = theme.palette.mode === 'dark' ? 'blue' : 'green';
-    onThemeChange(newTheme);
+  const handleCopyInvitation = () => {
+    navigator.clipboard.writeText('303821337955');
+  };
+
+  const menuItems = [
+    { 
+      icon: <DataUsageIcon />, 
+      label: 'Subordinate Data',
+      path: '/subordinate/data'
+    },
+    { 
+      icon: <MonetizationOnIcon />, 
+      label: 'Commission Details',
+      path: '/commission/details'
+    },
+    { 
+      icon: <GroupAddIcon />, 
+      label: 'New Subordinates',
+      path: '/subordinate/new'
+    },
+    { 
+      icon: <DescriptionIcon />, 
+      label: 'Invitation Rules',
+      path: '/invitation/rules'
+    },
+    { 
+      icon: <HeadsetMicIcon />, 
+      label: 'Agent Line Customer Service',
+      path: '/agent/customer-service'
+    },
+    { 
+      icon: <LocalOfferIcon />, 
+      label: 'Rebate Ratio',
+      path: '/rebate/ratio'
+    }
+  ];
+
+  const handleMenuClick = (path: string) => {
+    navigate(path);
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Container maxWidth="xl" sx={{ pb: 8, pt: isMobile ? 8 : 4 }}>
-        {/* Header Section */}
-        <Box sx={{ mb: 4 }}>
-          <NeonText variant={isMobile ? "h3" : "h2"} sx={{ fontWeight: 900, mb: 2 }}>
-            Special Promotions
-          </NeonText>
-          <Typography variant={isMobile ? "h6" : "h5"} color="#B0B0B0">
-            Discover amazing offers and rewards
-          </Typography>
-        </Box>
+    <Box sx={{ 
+      bgcolor: themeColors.green.background, 
+      minHeight: '100vh',
+      color: themeColors.green.text,
+      width: '100%',
+      maxWidth: '480px',
+      margin: '0 auto',
+    }}>
+      <HeaderSection>
+        <Typography variant="h6">Agent</Typography>
+        <Typography variant="body2" sx={{ mt: 1 }}>
+          Upgrade the level to increase commission income
+        </Typography>
+        <StatValue>0.00</StatValue>
+        <StatLabel>Commission Balance</StatLabel>
+        <StatValue sx={{ mt: 2 }}>0.00</StatValue>
+        <StatLabel>Total Commission Yesterday</StatLabel>
+        
+        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+          <Button 
+            variant="outlined" 
+            fullWidth 
+            sx={{ 
+              color: isDarkMode ? themeColors.green.text : '#fff',
+              borderColor: isDarkMode ? themeColors.green.text : '#fff'
+            }}
+          >
+            Turn Into Balance
+          </Button>
+          <Button 
+            variant="outlined" 
+            fullWidth 
+            sx={{ 
+              color: isDarkMode ? themeColors.green.text : '#fff',
+              borderColor: isDarkMode ? themeColors.green.text : '#fff'
+            }}
+          >
+            Commission Withdrawal
+          </Button>
+        </Stack>
+      </HeaderSection>
 
-        {/* Promotions Grid */}
-        <Grid container spacing={isMobile ? 2 : 3}>
-          {promotions.map((promo) => (
-            <Grid item xs={12} sm={6} md={3} key={promo.id}>
-              <PromotionCard>
-                <CardContent>
-                  <IconWrapper>
-                    {promo.icon}
-                  </IconWrapper>
-                  <Typography variant="h6" color="#FFFFFF" gutterBottom>
-                    {promo.title}
-                  </Typography>
-                  <Typography color="#B0B0B0" paragraph>
-                    {promo.description}
-                  </Typography>
-                  <Stack spacing={2}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <AccessTimeIcon sx={{ color: '#00FF88', fontSize: '1rem' }} />
-                      <Typography variant="body2" color="#B0B0B0">
-                        Ends: {promo.endDate}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                      <StyledChip 
-                        label={`Reward: ${promo.reward}`} 
-                        size="small"
-                      />
-                      {promo.minDeposit !== '₹0' && (
-                        <StyledChip 
-                          label={`Min: ${promo.minDeposit}`} 
-                          size="small"
-                        />
-                      )}
-                    </Box>
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      sx={{
-                        bgcolor: '#00FF88',
-                        color: '#000',
-                        fontWeight: 700,
-                        '&:hover': {
-                          bgcolor: '#00CC6A',
-                        }
-                      }}
-                    >
-                      Claim Now
-                    </Button>
-                  </Stack>
-                </CardContent>
-              </PromotionCard>
-            </Grid>
-          ))}
+      <Container sx={{ mt: 2, mb: 2 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <StatsCard onClick={() => handleMenuClick('/subordinate/data')}>
+              <Box sx={{ textAlign: 'center' }}>
+                <IconWrapper>
+                  <PersonIcon fontSize="large" />
+                </IconWrapper>
+                <Typography variant="subtitle1" sx={{ mt: 1, color: isDarkMode ? themeColors.green.text : 'inherit' }}>
+                  Direct Subordinates
+                </Typography>
+                <StatValue>0</StatValue>
+                <StatLabel>Registration Accounts</StatLabel>
+                <StatValue sx={{ mt: 1 }}>0</StatValue>
+                <StatLabel>Deposit Accounts</StatLabel>
+                <StatValue sx={{ mt: 1 }}>0</StatValue>
+                <StatLabel>Deposit Amount</StatLabel>
+                <StatValue sx={{ mt: 1 }}>0</StatValue>
+                <StatLabel>New Deposit Accounts</StatLabel>
+              </Box>
+            </StatsCard>
+          </Grid>
+          <Grid item xs={6}>
+            <StatsCard onClick={() => handleMenuClick('/subordinate/data')}>
+              <Box sx={{ textAlign: 'center' }}>
+                <IconWrapper>
+                  <GroupIcon fontSize="large" />
+                </IconWrapper>
+                <Typography variant="subtitle1" sx={{ mt: 1, color: isDarkMode ? themeColors.green.text : 'inherit' }}>
+                  Team Subordinates
+                </Typography>
+                <StatValue>0</StatValue>
+                <StatLabel>Registration Accounts</StatLabel>
+                <StatValue sx={{ mt: 1 }}>0</StatValue>
+                <StatLabel>Deposit Accounts</StatLabel>
+                <StatValue sx={{ mt: 1 }}>0</StatValue>
+                <StatLabel>Deposit Amount</StatLabel>
+                <StatValue sx={{ mt: 1 }}>0</StatValue>
+                <StatLabel>New Deposit Accounts</StatLabel>
+              </Box>
+            </StatsCard>
+          </Grid>
         </Grid>
 
-        {/* Terms and Conditions */}
-        <Paper 
-          sx={{ 
-            p: isMobile ? 2 : 4,
-            mt: 6,
-            background: 'rgba(26, 26, 26, 0.9)',
-            border: '1px solid rgba(0, 255, 136, 0.1)',
-            borderRadius: '16px',
-          }}
-        >
-          <Typography variant="h5" color="#00FF88" gutterBottom>
-            Terms & Conditions
-          </Typography>
-          <Stack spacing={2}>
-            <Typography color="#B0B0B0">
-              • All promotions are subject to our terms and conditions
-            </Typography>
-            <Typography color="#B0B0B0">
-              • One promotion can be active at a time
-            </Typography>
-            <Typography color="#B0B0B0">
-              • Minimum deposit requirements must be met
-            </Typography>
-            <Typography color="#B0B0B0">
-              • Promotions cannot be combined with other offers
-            </Typography>
+        <InvitationButton variant="contained" onClick={() => handleMenuClick('/invitation/rules')}>
+          INVITATION LINK
+        </InvitationButton>
+
+        <MenuButton onClick={handleCopyInvitation}>
+          <Stack direction="row" alignItems="center" spacing={2} sx={{ width: '100%' }}>
+            <IconWrapper>
+              <ContentCopyIcon />
+            </IconWrapper>
+            <Box flex={1}>
+              <Typography color={isDarkMode ? themeColors.green.text : 'inherit'}>
+                Copy Invitation Code
+              </Typography>
+              <Typography 
+                variant="body2" 
+                sx={{ color: isDarkMode ? themeColors.green.text : 'text.secondary' }}
+              >
+                303821337955
+              </Typography>
+            </Box>
+            <KeyboardArrowRightIcon sx={{ color: isDarkMode ? themeColors.green.text : 'inherit' }} />
           </Stack>
-        </Paper>
+        </MenuButton>
+
+        {menuItems.map((item, index) => (
+          <MenuButton key={index} onClick={() => handleMenuClick(item.path)}>
+            <Stack direction="row" alignItems="center" spacing={2} sx={{ width: '100%' }}>
+              <IconWrapper>
+                {item.icon}
+              </IconWrapper>
+              <Typography 
+                flex={1}
+                sx={{ color: isDarkMode ? themeColors.green.text : 'inherit' }}
+              >
+                {item.label}
+              </Typography>
+              <KeyboardArrowRightIcon sx={{ color: isDarkMode ? themeColors.green.text : 'inherit' }} />
+            </Stack>
+          </MenuButton>
+        ))}
+
+        <StatsCard sx={{ mt: 2 }} onClick={() => handleMenuClick('/commission/details')}>
+          <Typography 
+            variant="h6" 
+            gutterBottom
+            sx={{ color: isDarkMode ? themeColors.green.text : 'inherit' }}
+          >
+            Promotion Data
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Box sx={{ textAlign: 'center' }}>
+                <StatValue>0.00</StatValue>
+                <StatLabel>This Week's Commission</StatLabel>
+                <StatValue sx={{ mt: 2 }}>0</StatValue>
+                <StatLabel>Direct Subordinates</StatLabel>
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box sx={{ textAlign: 'center' }}>
+                <StatValue>0.00</StatValue>
+                <StatLabel>Total Commission</StatLabel>
+                <StatValue sx={{ mt: 2 }}>0</StatValue>
+                <StatLabel>Total Subordinates</StatLabel>
+              </Box>
+            </Grid>
+          </Grid>
+        </StatsCard>
       </Container>
     </Box>
   );

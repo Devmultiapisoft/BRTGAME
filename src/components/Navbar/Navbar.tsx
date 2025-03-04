@@ -78,7 +78,7 @@ const MobileSearchBar = styled(Paper)(({ theme }) => ({
   padding: '8px 16px',
   display: 'flex',
   alignItems: 'center',
-  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].cardBg,
+  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
   borderRadius: '12px',
   border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
   zIndex: 999,
@@ -88,7 +88,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     width: '250px',
     boxSizing: 'border-box',
-    backgroundColor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].cardBg,
+    backgroundColor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
     borderRight: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
   },
 }));
@@ -117,7 +117,7 @@ const ThemeColorBox = styled(Box)(({ theme }) => ({
     right: -2,
     bottom: -2,
     borderRadius: '50%',
-    background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].gradient,
+    background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
     zIndex: -1,
     opacity: 0,
     transition: 'opacity 0.3s ease',
@@ -174,7 +174,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMobile, onThemeChange, currentTheme }
   const drawer = (
     <Box sx={{ 
       width: 250, 
-      bgcolor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].cardBg,
+      bgcolor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
       height: '100%',
       borderRight: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
     }}>
@@ -261,7 +261,7 @@ const Navbar: React.FC<NavbarProps> = ({ isMobile, onThemeChange, currentTheme }
         onClose={handleThemeClose}
         PaperProps={{
           sx: {
-            bgcolor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].cardBg,
+            bgcolor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
             border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
             borderRadius: '16px',
             mt: 1,
@@ -344,12 +344,12 @@ const Navbar: React.FC<NavbarProps> = ({ isMobile, onThemeChange, currentTheme }
         {drawer}
       </StyledDrawer>
 
-      <MobileSearchBar>
+      {/* <MobileSearchBar>
         <SearchIcon sx={{ color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary, mr: 1 }} />
         <Typography variant="body2" color={themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].text}>
           Search games...
         </Typography>
-      </MobileSearchBar>
+      </MobileSearchBar> */}
     </>
   );
 };

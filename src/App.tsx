@@ -26,6 +26,7 @@ import Navbar from './components/Navbar/Navbar';
 import { styled } from '@mui/material/styles';
 import { createAppTheme, themeColors } from './theme';
 import { Theme } from '@mui/material/styles';
+
 import WithdrawalPage from './pages/wallet/Withdraw';
 import WalletPage from './pages/wallet/Wallet';
 import DepositPage from './pages/wallet/Deposit';
@@ -33,7 +34,16 @@ import WithdrawPage from './pages/wallet/Withdraw';
 import DepositHistoryPage from './pages/wallet/DepositHistoryPage';
 import WithdrawHistoryPage from './pages/wallet/WithdrawalHistoryPage';
 import BetHistoryPage from "./components/BetHistory/BetHistory"
-
+import CommissionDetails from './views/commission/CommissionDetails';
+import SubordinateData from './views/subordinate/SubordinateData';
+import NewSubordinates from './views/subordinate/NewSubordinates';
+import InvitationRules from './views/invitation/InvitationRules';
+import CustomerService from './views/agent/CustomerService';
+import RebateRatio from './views/rebate/RebateRatio';
+import WinGo from './views/games/WinGo';
+import WinGo3 from './views/games/WinGo3';
+import WinGo5 from './views/games/WinGo5';
+import WinGo10 from './views/games/WinGo10';
 
 
 // Mobile container wrapper
@@ -93,8 +103,8 @@ const App: React.FC = () => {
           <Navbar isMobile={true} onThemeChange={handleThemeChange} currentTheme={currentTheme} />
           <Box sx={{
             flex: 1,
-            pt: '56px', // Navbar height
-            pb: '56px', // Footer height
+            pt: '56px',
+            pb: '56px',
             position: 'relative',
             overflowX: 'hidden',
             width: '100%',
@@ -103,13 +113,19 @@ const App: React.FC = () => {
             backgroundColor: themeColors[currentTheme].background,
             backdropFilter: 'blur(20px)',
           }}>
-            <Container maxWidth={false}>
+            <Container 
+           
+              disableGutters 
+              sx={{ 
+                width: '100%',
+                height: '100%',
+                p: 0,
+              }}
+            >
               <Routes>
-
-               
-                <Route path="/account" element={<Account/>} />
-                <Route path="/settings" element={<SettingsPage/>} />
-                <Route path="/change-password" element={<ChangePasswordPage/>} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/change-password" element={<ChangePasswordPage />} />
                 <Route path="/feedback" element={<FeedbackPage />} />
                 <Route path="/announcement" element={<AnnouncementPage />} />
                 <Route path="/customer-service" element={<CustomerServicePage />} />
@@ -117,7 +133,13 @@ const App: React.FC = () => {
                 <Route path="/agreement/:type" element={<AgreementPage type={1} />} />
                 <Route path="/notification" element={<NotificationPage />} />
                 <Route path="/" element={<GamesPage onThemeChange={handleThemeChange} currentTheme={currentTheme} />} />
-                <Route path="/commission" element={<CommissionPage onThemeChange={handleThemeChange} />} />
+                <Route path="/commission" element={<CommissionPage />} />
+                <Route path="/commission/details" element={<CommissionDetails />} />
+                <Route path="/subordinate/data" element={<SubordinateData />} />
+                <Route path="/subordinate/new" element={<NewSubordinates />} />
+                <Route path="/invitation/rules" element={<InvitationRules />} />
+                <Route path="/agent/customer-service" element={<CustomerService />} />
+                <Route path="/rebate/ratio" element={<RebateRatio />} />
                 <Route path="/promotion" element={<PromotionPage onThemeChange={handleThemeChange} />} />
                 <Route path="/wallet" element={<WalletPage />} />
                 <Route path="/wallet/deposit" element={<DepositPage />} />
@@ -125,6 +147,10 @@ const App: React.FC = () => {
                 <Route path="wallet/depositHistory" element={<DepositHistoryPage />} />
                 <Route path="/wallet/withdrawHistory" element={<WithdrawHistoryPage />} />
                 <Route path='/bet-history' element={<BetHistoryPage/>} />
+                <Route path="/wingo/1" element={<WinGo />} />
+                <Route path="/wingo/3" element={<WinGo3 />} />
+                <Route path="/wingo/5" element={<WinGo5 />} />
+                <Route path="/wingo/10" element={<WinGo10 />} />
                 {/* Add more routes as needed */}
               </Routes>
             </Container>  
