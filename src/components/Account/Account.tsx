@@ -70,6 +70,7 @@ interface ActionButton {
   text: string;
   icon: React.ReactNode;
   color: ButtonColor;
+  Nav?: () => void;
 }
 
 interface ServiceButton {
@@ -87,9 +88,9 @@ const MemberDashboard = () => {
   }, []);
 
   const actionButtons: ActionButton[] = [
-    { text: 'Wallet', icon: <AccountBalanceWallet />, color: 'primary' },
-    { text: 'Deposit', icon: <CreditCard />, color: 'secondary' },
-    { text: 'Withdraw', icon: <MoneyOff />, color: 'error' },
+    { text: 'Wallet', icon: <AccountBalanceWallet />, color: 'primary', Nav: () => navigate('/wallet') },
+    { text: 'Deposit', icon: <CreditCard />, color: 'secondary', Nav : ()=>navigate("/wallet/deposit")},
+    { text: 'Withdraw', icon: <MoneyOff />, color: 'error', Nav : ()=>navigate("/wallet/withdraw") },
     { text: 'SVIP', icon: <Diamond />, color: 'warning' }
   ];
 
@@ -172,6 +173,7 @@ const MemberDashboard = () => {
                   borderRadius: 2,
                   boxShadow: theme => `0 4px 20px ${theme.palette[btn.color].main}`
                 }}
+                onClick={btn.Nav}
               >
                 <Typography variant="button" sx={{ fontWeight: 700 }}>{btn.text}</Typography>
               </Button>
@@ -183,10 +185,10 @@ const MemberDashboard = () => {
       {/* Menu List */}
       <List sx={{ bgcolor: 'background.paper', borderRadius: 3, boxShadow: 2 }}>
         {[
-          { icon: <SportsEsports />, primary: 'Bet', secondary: 'My betting history' },
-          { icon: <SwapHoriz />, primary: 'Transaction', secondary: 'My transaction history' },
-          { icon: <AccountBalance />, primary: 'Deposit', secondary: 'My deposit history' },
-          { icon: <AccountBalance />, primary: 'Withdraw', secondary: 'My withdraw history' },
+          { icon: <SportsEsports />, primary: 'Bet', secondary: 'My betting history', onClick: () => navigate('/bet-history')  },
+          { icon: <SwapHoriz />, primary: 'Transaction', secondary: 'My transaction history', onClick :()=> navigate('/wallet') },
+          { icon: <AccountBalance />, primary: 'Deposit', secondary: 'My deposit history', onClick :()=>navigate("/wallet/depositHistory") },
+          { icon: <AccountBalance />, primary: 'Withdraw', secondary: 'My withdraw history',onClick :()=>navigate("/wallet/withdrawHistory") },
           { icon: <NotificationsActive />, primary: 'Notification', secondary: 'View your notifications', onClick: () => navigate('/notifications') },
           { icon: <CardGiftcard />, primary: 'Gifts' },
           { icon: <Equalizer />, primary: 'Game Statistics' },

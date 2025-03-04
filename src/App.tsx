@@ -26,6 +26,14 @@ import Navbar from './components/Navbar/Navbar';
 import { styled } from '@mui/material/styles';
 import { createAppTheme, themeColors } from './theme';
 import { Theme } from '@mui/material/styles';
+
+import WithdrawalPage from './pages/wallet/Withdraw';
+import WalletPage from './pages/wallet/Wallet';
+import DepositPage from './pages/wallet/Deposit';
+import WithdrawPage from './pages/wallet/Withdraw';
+import DepositHistoryPage from './pages/wallet/DepositHistoryPage';
+import WithdrawHistoryPage from './pages/wallet/WithdrawalHistoryPage';
+import BetHistoryPage from "./components/BetHistory/BetHistory"
 import CommissionDetails from './views/commission/CommissionDetails';
 import SubordinateData from './views/subordinate/SubordinateData';
 import NewSubordinates from './views/subordinate/NewSubordinates';
@@ -133,6 +141,12 @@ const App: React.FC = () => {
                 <Route path="/agent/customer-service" element={<CustomerService />} />
                 <Route path="/rebate/ratio" element={<RebateRatio />} />
                 <Route path="/promotion" element={<PromotionPage onThemeChange={handleThemeChange} />} />
+                <Route path="/wallet" element={<WalletPage />} />
+                <Route path="/wallet/deposit" element={<DepositPage />} />
+                <Route path="/wallet/withdraw" element={<WithdrawPage />} />
+                <Route path="wallet/depositHistory" element={<DepositHistoryPage />} />
+                <Route path="/wallet/withdrawHistory" element={<WithdrawHistoryPage />} />
+                <Route path='/bet-history' element={<BetHistoryPage/>} />
                 <Route path="/wingo/1" element={<WinGo />} />
                 <Route path="/wingo/3" element={<WinGo3 />} />
                 <Route path="/wingo/5" element={<WinGo5 />} />
