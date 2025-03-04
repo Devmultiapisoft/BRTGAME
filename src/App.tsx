@@ -26,6 +26,14 @@ import Navbar from './components/Navbar/Navbar';
 import { styled } from '@mui/material/styles';
 import { createAppTheme, themeColors } from './theme';
 import { Theme } from '@mui/material/styles';
+import WithdrawalPage from './pages/wallet/Withdraw';
+import WalletPage from './pages/wallet/Wallet';
+import DepositPage from './pages/wallet/Deposit';
+import WithdrawPage from './pages/wallet/Withdraw';
+import DepositHistoryPage from './pages/wallet/DepositHistoryPage';
+import WithdrawHistoryPage from './pages/wallet/WithdrawalHistoryPage';
+import BetHistoryPage from "./components/BetHistory/BetHistory"
+
 
 
 // Mobile container wrapper
@@ -111,7 +119,12 @@ const App: React.FC = () => {
                 <Route path="/" element={<GamesPage onThemeChange={handleThemeChange} currentTheme={currentTheme} />} />
                 <Route path="/commission" element={<CommissionPage onThemeChange={handleThemeChange} />} />
                 <Route path="/promotion" element={<PromotionPage onThemeChange={handleThemeChange} />} />
-
+                <Route path="/wallet" element={<WalletPage />} />
+                <Route path="/wallet/deposit" element={<DepositPage />} />
+                <Route path="/wallet/withdraw" element={<WithdrawPage />} />
+                <Route path="wallet/depositHistory" element={<DepositHistoryPage />} />
+                <Route path="/wallet/withdrawHistory" element={<WithdrawHistoryPage />} />
+                <Route path='/bet-history' element={<BetHistoryPage/>} />
                 {/* Add more routes as needed */}
               </Routes>
             </Container>  
