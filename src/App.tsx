@@ -32,6 +32,10 @@ import NewSubordinates from './views/subordinate/NewSubordinates';
 import InvitationRules from './views/invitation/InvitationRules';
 import CustomerService from './views/agent/CustomerService';
 import RebateRatio from './views/rebate/RebateRatio';
+import WinGo from './views/games/WinGo';
+import WinGo3 from './views/games/WinGo3';
+import WinGo5 from './views/games/WinGo5';
+import WinGo10 from './views/games/WinGo10';
 
 
 // Mobile container wrapper
@@ -102,10 +106,10 @@ const App: React.FC = () => {
             backdropFilter: 'blur(20px)',
           }}>
             <Container 
-              maxWidth={false} 
+           
               disableGutters 
               sx={{ 
-                width: '450px',
+                width: '100%',
                 height: '100%',
                 p: 0,
               }}
@@ -129,6 +133,10 @@ const App: React.FC = () => {
                 <Route path="/agent/customer-service" element={<CustomerService />} />
                 <Route path="/rebate/ratio" element={<RebateRatio />} />
                 <Route path="/promotion" element={<PromotionPage onThemeChange={handleThemeChange} />} />
+                <Route path="/wingo/1" element={<WinGo />} />
+                <Route path="/wingo/3" element={<WinGo3 />} />
+                <Route path="/wingo/5" element={<WinGo5 />} />
+                <Route path="/wingo/10" element={<WinGo10 />} />
                 {/* Add more routes as needed */}
               </Routes>
             </Container>  

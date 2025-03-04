@@ -447,6 +447,45 @@ const gamesData = {
   ],
 };
 
+const wingoGames: Game[] = [
+  {
+    id: 'wingo1',
+    name: 'Win Go 1Min',
+    image: '/images/games/wingo.png',
+    path: '/wingo/1',
+    players: 1000,
+    multiplier: '2x',
+    progress: 75,
+  },
+  {
+    id: 'wingo3',
+    name: 'Win Go 3Min',
+    image: '/images/games/wingo.png',
+    path: '/wingo/3',
+    players: 800,
+    multiplier: '2x',
+    progress: 65,
+  },
+  {
+    id: 'wingo5',
+    name: 'Win Go 5Min',
+    image: '/images/games/wingo.png',
+    path: '/wingo/5',
+    players: 600,
+    multiplier: '2x',
+    progress: 55,
+  },
+  {
+    id: 'wingo10',
+    name: 'Win Go 10Min',
+    image: '/images/games/wingo.png',
+    path: '/wingo/10',
+    players: 400,
+    multiplier: '2x',
+    progress: 45,
+  },
+];
+
 const gamesCategories = [
   { label: 'TRX', value: 'trx', games: gamesData.trx },
   { label: 'Win Go', value: 'wingo', games: gamesData.wingo },
@@ -525,36 +564,6 @@ const popularGames = [
     players: 3456,
     multiplier: 'x3.2',
     progress: 85,
-  },
-];
-
-const wingoGames = [
-  {
-    id: 'wingo1',
-    name: 'Win Go 1Min',
-    image: '/images/wingo.png',
-    path: '/wingo/1',
-    players: 2345,
-    multiplier: 'x2.8',
-    progress: 90,
-  },
-  {
-    id: 'wingo3',
-    name: 'Win Go 3Min',
-    image: '/images/wingo.png',
-    path: '/wingo/3',
-    players: 1678,
-    multiplier: 'x3.5',
-    progress: 75,
-  },
-  {
-    id: 'wingo5',
-    name: 'Win Go 5Min',
-    image: '/images/wingo.png',
-    path: '/wingo/5',
-    players: 1234,
-    multiplier: 'x4.2',
-    progress: 60,
   },
 ];
 
@@ -668,9 +677,108 @@ const leaderboardData = [
   },
 ];
 
+interface GameSectionProps {
+  title: string;
+  games: Game[];
+  onGameClick: (game: Game) => void;
+  isMobile: boolean;
+  isBlueTheme: boolean;
+}
+
+const GameSection: React.FC<GameSectionProps> = ({ title, games, onGameClick, isMobile, isBlueTheme }) => {
+  const theme = useTheme();
+  return (
+    <Box sx={{ 
+      mb: 6,
+      background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].sectionBg,
+      borderRadius: '20px',
+      padding: '24px',
+      border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
+    }}>
+      <Typography 
+        variant="h5" 
+        sx={{ 
+          color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
+          mb: 3, 
+          fontWeight: 700,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          fontSize: isMobile ? '1.25rem' : '1.5rem',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
+        }}
+      >
+        {title}
+      </Typography>
+      <Grid container spacing={isMobile ? 1 : 3} justifyContent="center">
+        {games.map((game) => (
+          <Grid item xs={6} sm={6} md={4} lg={3} key={game.id}>
+            <StyledCard 
+              onClick={() => onGameClick(game)}
+              className={isBlueTheme ? 'blue-theme' : ''}
+            >
+              <Box sx={{ position: 'relative', width: '100%', paddingTop: '56.25%' }}>
+                <GameImage
+                  image={game.image}
+                  title={game.name}
+                  className="game-image"
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.3s ease',
+                  }}
+                />
+                <PlayOverlay className="play-overlay">
+                  <Button
+                    variant="contained"
+                    startIcon={<PlayArrowIcon sx={{ fontSize: '1.2rem' }} />}
+                    sx={{
+                      backgroundImage: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary})`,
+                      color: '#fff',
+                      '&:hover': {
+                        backgroundImage: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary})`,
+                      },
+                      borderRadius: '8px',
+                      px: 2,
+                      py: 0.5,
+                      fontSize: '0.8rem',
+                      boxShadow: `0 0 15px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
+                    }}
+                  >
+                    Play
+                  </Button>
+                </PlayOverlay>
+              </Box>
+              <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 1 }}>
+                <GameTitle variant="h6">
+                  {game.name}
+                </GameTitle>
+                <GameStats>
+                  <StatItem>
+                    <TrendingUpIcon sx={{ fontSize: '1rem', color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary }} />
+                    {game.multiplier}
+                  </StatItem>
+                  <StatItem>
+                    👥 {game.players}
+                  </StatItem>
+                </GameStats>
+              </CardContent>
+            </StyledCard>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+};
+
 interface GamesPageProps {
-  onThemeChange: (theme: keyof typeof themeColors) => void;
-  currentTheme: keyof typeof themeColors;
+  onThemeChange: (theme: 'blue' | 'green') => void;
+  currentTheme: 'blue' | 'green';
 }
 
 const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) => {
@@ -680,6 +788,7 @@ const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) =>
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -690,8 +799,8 @@ const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) =>
     }
   };
 
-  const handleGameClick = (game: any) => {
-    navigate(`/games/${game.path}`);
+  const handleGameClick = (game: Game) => {
+    navigate(game.path);
   };
 
   const handleThemeChange = () => {
@@ -917,6 +1026,15 @@ const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) =>
           ))}
         </Box>
 
+        {/* WinGo Games Section */}
+        <GameSection
+          title="Win Go Games"
+          games={wingoGames}
+          onGameClick={handleGameClick}
+          isMobile={true}
+          isBlueTheme={currentTheme === 'blue'}
+        />
+
         {/* Theme Switcher */}
         <ThemeSwitcher 
           onClick={handleThemeChange}
@@ -1039,110 +1157,6 @@ const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) =>
           </Box>
         </Box>
       </Container>
-    </Box>
-  );
-};
-
-// Update GameSection component
-const GameSection = ({ 
-  title, 
-  games, 
-  onGameClick,
-  isMobile,
-  isBlueTheme 
-}: { 
-  title: string; 
-  games: Game[]; 
-  onGameClick: (path: string) => void;
-  isMobile: boolean;
-  isBlueTheme: boolean;
-}) => {
-  const theme = useTheme();
-  return (
-    <Box sx={{ 
-      mb: 6,
-      background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].sectionBg,
-      borderRadius: '20px',
-      padding: '24px',
-      border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
-    }}>
-      <Typography 
-        variant="h5" 
-        sx={{ 
-          color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
-          mb: 3, 
-          fontWeight: 700,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          fontSize: isMobile ? '1.25rem' : '1.5rem',
-          textTransform: 'uppercase',
-          letterSpacing: '1px',
-        }}
-      >
-        {title}
-      </Typography>
-      <Grid container spacing={isMobile ? 1 : 3} justifyContent="center">
-        {games.map((game) => (
-          <Grid item xs={6} sm={6} md={4} lg={3} key={game.id}>
-            <StyledCard 
-              onClick={() => onGameClick(game.path)}
-              className={isBlueTheme ? 'blue-theme' : ''}
-            >
-              <Box sx={{ position: 'relative', width: '100%', paddingTop: '56.25%' }}>
-                <GameImage
-                  image={game.image}
-                  title={game.name}
-                  className="game-image"
-                  sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 0.3s ease',
-                  }}
-                />
-                <PlayOverlay className="play-overlay">
-                  <Button
-                    variant="contained"
-                    startIcon={<PlayArrowIcon sx={{ fontSize: '1.2rem' }} />}
-                    sx={{
-                      backgroundImage: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary})`,
-                      color: '#fff',
-                      '&:hover': {
-                        backgroundImage: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary})`,
-                      },
-                      borderRadius: '8px',
-                      px: 2,
-                      py: 0.5,
-                      fontSize: '0.8rem',
-                      boxShadow: `0 0 15px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
-                    }}
-                  >
-                    Play
-                  </Button>
-                </PlayOverlay>
-              </Box>
-              <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 1 }}>
-                <GameTitle variant="h6">
-                  {game.name}
-                </GameTitle>
-                <GameStats>
-                  <StatItem>
-                    <TrendingUpIcon sx={{ fontSize: '1rem', color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary }} />
-                    {game.multiplier}
-                  </StatItem>
-                  <StatItem>
-                    👥 {game.players}
-                  </StatItem>
-                </GameStats>
-              </CardContent>
-            </StyledCard>
-          </Grid>
-        ))}
-      </Grid>
     </Box>
   );
 };
