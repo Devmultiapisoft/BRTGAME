@@ -4,11 +4,21 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GamesPage from './views/games';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+
 import Popup from './components/Popup/Popup';
 import Tabs from './components/Tabs/Tabs';
 import ProgressBar from './components/ProgressBar/ProgressBar';
 import { generateRandomAmount, generateRandomUserName, generateRandomImageURL } from './utils/helpers';
 import './App.css';
+import Account from './components/Account/Account';
+import SettingsPage from './components/Settings/Settings';
+import { ChangePasswordPage } from './components/ChangePassword/ChangePassword';
+import FeedbackPage from './components/Feedback/Feedback';
+import { AnnouncementPage } from './components/Announcement/Announcement';
+import { CustomerServicePage } from './components/Announcement/CustomerServicePage';
+import { AboutPage } from './components/Announcement/About';
+import { AgreementPage } from './components/Announcement/AggrementPage';
+import NotificationPage from './components/Notification/Notification';
 
 // Create theme
 const theme = createTheme({
@@ -83,9 +93,18 @@ const App: React.FC = () => {
             <Container maxWidth="lg">
               <Routes>
                 <Route path="/" element={<GamesPage />} />
+                <Route path="/profile" element={<Account/>} />
+                <Route path="/settings" element={<SettingsPage/>} />
+                <Route path="/change-password" element={<ChangePasswordPage/>} />
+                <Route path="/feedback" element={<FeedbackPage />} />
+                <Route path="/announcement" element={<AnnouncementPage />} />
+                <Route path="/customer-service" element={<CustomerServicePage />} />
+                <Route path="/about-us" element={<AboutPage />} />
+                <Route path="/agreement/:type" element={<AgreementPage type={1} />} />
+                <Route path="/notification" element={<NotificationPage />} />
                 {/* Add more routes as needed */}
               </Routes>
-            </Container>
+            </Container>  
           </Box>
           <Footer />
         </Box>
