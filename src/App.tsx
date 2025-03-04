@@ -26,6 +26,12 @@ import Navbar from './components/Navbar/Navbar';
 import { styled } from '@mui/material/styles';
 import { createAppTheme, themeColors } from './theme';
 import { Theme } from '@mui/material/styles';
+import CommissionDetails from './views/commission/CommissionDetails';
+import SubordinateData from './views/subordinate/SubordinateData';
+import NewSubordinates from './views/subordinate/NewSubordinates';
+import InvitationRules from './views/invitation/InvitationRules';
+import CustomerService from './views/agent/CustomerService';
+import RebateRatio from './views/rebate/RebateRatio';
 
 
 // Mobile container wrapper
@@ -85,8 +91,8 @@ const App: React.FC = () => {
           <Navbar isMobile={true} onThemeChange={handleThemeChange} currentTheme={currentTheme} />
           <Box sx={{
             flex: 1,
-            pt: '56px', // Navbar height
-            pb: '56px', // Footer height
+            pt: '56px',
+            pb: '56px',
             position: 'relative',
             overflowX: 'hidden',
             width: '100%',
@@ -95,13 +101,19 @@ const App: React.FC = () => {
             backgroundColor: themeColors[currentTheme].background,
             backdropFilter: 'blur(20px)',
           }}>
-            <Container maxWidth={false}>
+            <Container 
+              maxWidth={false} 
+              disableGutters 
+              sx={{ 
+                width: '450px',
+                height: '100%',
+                p: 0,
+              }}
+            >
               <Routes>
-
-               
-                <Route path="/account" element={<Account/>} />
-                <Route path="/settings" element={<SettingsPage/>} />
-                <Route path="/change-password" element={<ChangePasswordPage/>} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/change-password" element={<ChangePasswordPage />} />
                 <Route path="/feedback" element={<FeedbackPage />} />
                 <Route path="/announcement" element={<AnnouncementPage />} />
                 <Route path="/customer-service" element={<CustomerServicePage />} />
@@ -109,9 +121,14 @@ const App: React.FC = () => {
                 <Route path="/agreement/:type" element={<AgreementPage type={1} />} />
                 <Route path="/notification" element={<NotificationPage />} />
                 <Route path="/" element={<GamesPage onThemeChange={handleThemeChange} currentTheme={currentTheme} />} />
-                <Route path="/commission" element={<CommissionPage onThemeChange={handleThemeChange} />} />
+                <Route path="/commission" element={<CommissionPage />} />
+                <Route path="/commission/details" element={<CommissionDetails />} />
+                <Route path="/subordinate/data" element={<SubordinateData />} />
+                <Route path="/subordinate/new" element={<NewSubordinates />} />
+                <Route path="/invitation/rules" element={<InvitationRules />} />
+                <Route path="/agent/customer-service" element={<CustomerService />} />
+                <Route path="/rebate/ratio" element={<RebateRatio />} />
                 <Route path="/promotion" element={<PromotionPage onThemeChange={handleThemeChange} />} />
-
                 {/* Add more routes as needed */}
               </Routes>
             </Container>  

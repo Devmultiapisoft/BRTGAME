@@ -11,24 +11,27 @@ import {
   Divider,
   Avatar,
   IconButton,
-  TextField
+  TextField,
+  useTheme,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { ArrowForwardIos, Edit, Security } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
+import { themeColors } from '../../theme';
 
 const AnimatedBox = motion(Box);
 
 const GlowPaper = styled(Paper)(({ theme }) => ({
-  background: `linear-gradient(145deg, ${theme.palette.background.paper} 0%, ${theme.palette.background.default} 100%)`,
+  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
   borderRadius: 16,
-  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+  boxShadow: `0 8px 32px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
   overflow: 'hidden'
 }));
 
 const SettingsPage = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [nickname, setNickname] = useState('MEMBER-13379554');
   const [isEditingNickname, setIsEditingNickname] = useState(false);
 
@@ -36,14 +39,14 @@ const SettingsPage = () => {
     setIsEditingNickname(!isEditingNickname);
   };
 
-  const handleSaveNickname = (newNickname) => {
+  const handleSaveNickname = (newNickname: string) => {
     setNickname(newNickname);
     setIsEditingNickname(false);
   };
-  useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to top on mount
-  }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <AnimatedBox
@@ -51,12 +54,13 @@ const SettingsPage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       sx={{
-        maxWidth: 375,
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        bgcolor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
+        maxWidth: '480px',
         margin: '0 auto',
-        p: 0,
-        bgcolor: 'background.default',
         position: 'relative',
-        height: '100vh',
       }}
     >
       {/* Background Image Section */}
@@ -64,7 +68,7 @@ const SettingsPage = () => {
         sx={{
           position: 'relative',
           height: '100px',
-          backgroundImage: 'url("/path/to/your/image.jpg")', // Replace with your image path
+          backgroundImage: 'url("/path/to/your/image.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
@@ -81,7 +85,7 @@ const SettingsPage = () => {
       </Box>
 
       {/* Main Content Section */}
-      <GlowPaper sx={{ p: 3 }}>
+      <GlowPaper sx={{ p: 3, flex: 1 }}>
         {/* Profile Section */}
         <ListItem sx={{ py: 2 }}>
           <Avatar 
@@ -154,7 +158,7 @@ const SettingsPage = () => {
           <Divider variant="middle" />
 
           <List>
-            <ListItem button onClick={() => navigate('/change-password')}>
+            <ListItem onClick={() => navigate('/change-password')}>
               <ListItemText
                 primary="Login Password"
                 secondary="Change Password"
@@ -162,10 +166,10 @@ const SettingsPage = () => {
             </ListItem>
             <Divider variant="middle" />
 
-            <ListItem button onClick={() => navigate('/change-password')}>
+            <ListItem onClick={() => navigate('/change-password')}>
               <ListItemText
                 primary="Withdrawal Password"
-                secondary ="Change Password"
+                secondary="Change Password"
               />
             </ListItem>
           </List>

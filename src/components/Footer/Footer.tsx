@@ -12,6 +12,7 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import { themeColors } from '../../theme';
+import { useNavigate } from 'react-router-dom';
 
 const FooterWrapper = styled(Box)(({ theme }) => ({
   position: 'fixed',
@@ -73,11 +74,12 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ currentTheme }) => {
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     const paths = ['/', '/commission', '/promotion', '/wallet', '/account'];
-    window.location.href = paths[newValue];
+    navigate(paths[newValue]);
   };
 
   return (

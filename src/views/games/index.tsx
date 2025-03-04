@@ -51,7 +51,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import PaletteIcon from '@mui/icons-material/Palette';
 import { themeColors } from '../../theme';
 import { Theme } from '@mui/material/styles';
-
+import image from '../../assets/HeroImage.jpeg';
 
 // Animation keyframes
 const gradientGlow = keyframes`
@@ -69,10 +69,15 @@ const pulseAnimation = keyframes`
 // Styled components
 const HeroCard = styled(Card)(({ theme }) => ({
   position: 'relative',
-  borderRadius: '20px',
+  borderRadius: '0',
   overflow: 'hidden',
-  minHeight: '300px',
+  minHeight: '500px',
+  width: '100vw',
+  marginLeft: 'calc(-50vw + 50%)',
+  marginRight: 'calc(-50vw + 50%)',
   background: `linear-gradient(45deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background} 30%, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}20 90%)`,
+  transform: 'perspective(1000px) rotateX(0deg)',
+  transition: 'all 0.5s ease',
   '&:before': {
     content: '""',
     position: 'absolute',
@@ -81,11 +86,19 @@ const HeroCard = styled(Card)(({ theme }) => ({
     right: 0,
     bottom: 0,
     border: '2px solid transparent',
-    borderRadius: '20px',
     background: `linear-gradient(45deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}) border-box`,
     mask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
     maskComposite: 'exclude',
     animation: `${gradientGlow} 4s ease infinite`,
+  },
+  '&:hover': {
+    transform: 'perspective(1000px) rotateX(2deg)',
+    '& .hero-content': {
+      transform: 'translateY(-10px)',
+    },
+    '& .hero-image': {
+      transform: 'scale(1.05)',
+    },
   },
 }));
 
@@ -135,7 +148,7 @@ const PlayOverlay = styled(Box)(({ theme }) => ({
   left: 0,
   right: 0,
   bottom: 0,
-  background: 'rgba(0, 0, 0, 0.5)',
+  background: 'rgba(0, 0, 0, 0.3)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -214,11 +227,11 @@ const ThemeSwitcher = styled(IconButton)(({ theme }) => ({
 // Styled components with theme support
 const StyledCard = styled(Card)(({ theme }) => ({
   height: '100%',
-  minHeight: '280px',
+  minHeight: '200px',
   display: 'flex',
   flexDirection: 'column',
   cursor: 'pointer',
-  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
+  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].cardBg || themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
   backdropFilter: 'blur(10px)',
   border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
   transition: 'all 0.3s ease',
@@ -226,8 +239,10 @@ const StyledCard = styled(Card)(({ theme }) => ({
   overflow: 'hidden',
   borderRadius: '16px',
   width: '100%',
-  maxWidth: '400px',
+  maxWidth: '100%',
   margin: '0 auto',
+  backgroundImage: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}10, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}10)`,
+  transform: 'perspective(1000px) rotateX(0deg)',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -235,14 +250,15 @@ const StyledCard = styled(Card)(({ theme }) => ({
     left: 0,
     width: '100%',
     height: '100%',
-    background: `linear-gradient(45deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}20, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}00)`,
+    background: `linear-gradient(45deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}10, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}00)`,
     opacity: 0,
     transition: 'opacity 0.3s ease',
   },
   '&:hover': {
-    transform: 'translateY(-5px)',
+    transform: 'perspective(1000px) rotateX(5deg) translateY(-5px)',
     boxShadow: `0 0 20px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
     border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}50`,
+    backgroundImage: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}20, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}20)`,
     '&::before': {
       opacity: 1,
     },
@@ -253,24 +269,17 @@ const StyledCard = styled(Card)(({ theme }) => ({
     '& .game-image': {
       transform: 'scale(1.05)',
     },
-  },
-  '&.blue-theme': {
-    background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
-    border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
-    '&::before': {
-      background: `linear-gradient(45deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}20, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}00)`,
-    },
-    '&:hover': {
-      boxShadow: `0 0 20px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
-      border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}50`,
+    '& .game-image::after': {
+      opacity: 0.5,
     },
   },
 }));
 
 const GameImage = styled(CardMedia)({
-  height: '200px',
-  position: 'relative',
-  transition: 'transform 0.3s ease',
+  height: '100%',
+  transition: 'transform 0.5s ease',
+  transform: 'scale(1)',
+  objectFit: 'cover',
   '&::after': {
     content: '""',
     position: 'absolute',
@@ -278,31 +287,22 @@ const GameImage = styled(CardMedia)({
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
+    background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%)',
+    opacity: 0.3,
   },
-});
+}) as typeof CardMedia;
 
 const GameTitle = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),
   textAlign: 'center',
   fontWeight: 700,
-  color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].text,
+  color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
   letterSpacing: '1px',
   textTransform: 'uppercase',
-  fontSize: '1rem',
-  textShadow: `0 0 10px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
+  fontSize: '0.9rem',
   transition: 'all 0.3s ease',
   '&:hover': {
-    color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
-    textShadow: `0 0 15px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
-  },
-  '.blue-theme &': {
-    color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
-    textShadow: `0 0 10px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
-    '&:hover': {
-      color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
-      textShadow: `0 0 15px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
-    },
+    color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary,
   },
 }));
 
@@ -325,25 +325,25 @@ const StyledChip = styled(Chip)(({ theme }) => ({
   },
 }));
 
-const GameStats = styled(Box)({
+const GameStats = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  marginTop: '8px',
-  padding: '0 16px',
-  gap: '1rem',
-});
+  marginTop: '4px',
+  padding: '4px 8px',
+  gap: '0.5rem',
+  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].sectionBg,
+  borderRadius: '8px',
+}));
 
 const StatItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: '4px',
-  color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].text,
-  fontSize: '0.875rem',
+  gap: '2px',
+  color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
+  fontSize: '0.75rem',
+  fontWeight: 600,
   whiteSpace: 'nowrap',
-  '.blue-theme &': {
-    color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
-  },
 }));
 
 const WinningInfoCard = styled(Card)(({ theme }: { theme: Theme }) => ({
@@ -468,7 +468,7 @@ const featuredGame = {
   name: 'BRT GAMING',
   commission: '80%',
   details: 'MembenNIGPSALA-50.00',
-  image: '/images/domanzo-bg.jpg',
+  image: image,
 };
 
 interface TabPanelProps {
@@ -705,75 +705,119 @@ const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) =>
       minHeight: '100vh',
       bgcolor: themeColors[currentTheme].background,
     }}>
-      <Container maxWidth="xl" sx={{ pb: 8, pt: isMobile ? 8 : 4 }}>
-        {/* Mobile Search Bar */}
-        {isMobile && (
-          <MobileSearchBar>
-            <SearchIcon sx={{ color: themeColors[currentTheme].primary, mr: 1 }} />
-            <Typography variant="body2" color={themeColors[currentTheme].text}>
-              Search games...
-            </Typography>
-          </MobileSearchBar>
-        )}
-
+      <Container maxWidth="xl" sx={{ pb: 8, pt: isMobile ? 1 : 4 }}>
+  
         {/* Hero Section */}
-        <Box sx={{ mt: isMobile ? 2 : 4, mb: 4 }}>
+        <Box sx={{ mt: 0, mb: 6 }}>
           <HeroCard>
-            <CardMedia
+            <HeroImage
               component="img"
-              height={isMobile ? "200" : "300"}
               image={featuredGame.image}
               alt={featuredGame.name}
-              sx={{ mixBlendMode: 'lighten' }}
+              className="hero-image"
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectPosition: 'center',
+              }}
             />
-            <Box sx={{ 
-              position: 'absolute', 
-              bottom: 0, 
-              left: 0, 
-              right: 0, 
-              p: isMobile ? 2 : 4,
-              background: `linear-gradient(transparent, ${themeColors[currentTheme].background}99)`
-            }}>
-              <NeonText variant={isMobile ? "h3" : "h2"} sx={{ fontWeight: 900, mb: 1 }}>
-                BRT GAMING
-              </NeonText>
-              <Typography variant={isMobile ? "h6" : "h5"} color={themeColors[currentTheme].primary} sx={{ mb: 2 }}>
-                The Future of Gaming
-              </Typography>
-              
-              <Stack 
-                direction={isMobile ? "column" : "row"} 
-                spacing={isMobile ? 2 : 4} 
-                alignItems={isMobile ? "stretch" : "center"}
-              >
-                <Box>
-                  <Typography variant={isMobile ? "h5" : "h3"} color={themeColors[currentTheme].primary} fontWeight={700}>
-                    {featuredGame.commission} COMMISSION
-                  </Typography>
-                  <Typography variant="body2" color={themeColors[currentTheme].text}>
-                    {featuredGame.details}
-                  </Typography>
-                </Box>
-                
-                <Button
-                  variant="contained"
-                  size={isMobile ? "medium" : "large"}
-                  fullWidth={isMobile}
-                  sx={{
-                    bgcolor: themeColors[currentTheme].primary,
-                    color: theme.palette.mode === 'dark' ? '#000' : '#fff',
-                    fontWeight: 700,
-                    px: isMobile ? 2 : 6,
-                    borderRadius: '12px',
-                    '&:hover': {
-                      bgcolor: themeColors[currentTheme].secondary,
-                    }
-                  }}
-                >
-                  Play Now
-                </Button>
-              </Stack>
-            </Box>
+            <HeroContent className="hero-content">
+              <Container maxWidth="xl">
+                <Grid container spacing={5} alignItems="center" mt={6}>
+                  <Grid item xs={12} md={6}>
+                    <HeroTitle>
+                      BRT GAMING
+                    </HeroTitle>
+                    <HeroSubtitle>
+                      The Future of Gaming
+                    </HeroSubtitle>
+                    <Box sx={{ mb: 4 }}>
+                      <Typography variant="h3" sx={{ 
+                        color: themeColors[currentTheme].primary,
+                        fontWeight: 800,
+                        mb: 2,
+                        transform: 'translateZ(40px)',
+                        textShadow: `0 0 10px ${themeColors[currentTheme].glow}`,
+                      }}>
+                        {featuredGame.commission} COMMISSION
+                      </Typography>
+                      <Typography variant="h6" sx={{ 
+                        color: themeColors[currentTheme].text,
+                        transform: 'translateZ(30px)',
+                        fontWeight: 500,
+                      }}>
+                        {featuredGame.details}
+                      </Typography>
+                    </Box>
+                    <HeroButton  >
+                      Play Now
+                    </HeroButton>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'center',
+                      transform: 'translateZ(50px)',
+                    }}>
+                      <Box sx={{ 
+                        background: `${themeColors[currentTheme].primary}15`,
+                        padding: '32px',
+                        borderRadius: '24px',
+                        backdropFilter: 'blur(10px)',
+                        border: `1px solid ${themeColors[currentTheme].border}`,
+                        boxShadow: `0 0 30px ${themeColors[currentTheme].glow}`,
+                        width: '100%',
+                        maxWidth: '400px',
+                      }}>
+                        <Typography variant="h5" sx={{ 
+                          color: themeColors[currentTheme].primary,
+                          mb: 3,
+                          textAlign: 'center',
+                          fontWeight: 700,
+                        }}>
+                          Featured Game
+                        </Typography>
+                        <Box sx={{ 
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 3,
+                        }}>
+                          <Box sx={{ 
+                            width: '80px',
+                            height: '80px',
+                            borderRadius: '16px',
+                            background: `linear-gradient(135deg, ${themeColors[currentTheme].primary}, ${themeColors[currentTheme].secondary})`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#fff',
+                            fontSize: '2rem',
+                            boxShadow: `0 0 20px ${themeColors[currentTheme].glow}`,
+                          }}>
+                            🎮
+                          </Box>
+                          <Box>
+                            <Typography variant="h5" sx={{ 
+                              color: themeColors[currentTheme].text,
+                              fontWeight: 700,
+                              mb: 1,
+                            }}>
+                              {featuredGame.name}
+                            </Typography>
+                            <Typography variant="body1" sx={{ 
+                              color: themeColors[currentTheme].primary,
+                              fontWeight: 500,
+                            }}>
+                              Join thousands of players
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Container>
+            </HeroContent>
           </HeroCard>
         </Box>
 
@@ -881,92 +925,118 @@ const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) =>
           <PaletteIcon />
         </ThemeSwitcher>
 
-        {/* Leaderboard Section */}
+        {/* Top Players Section with Trophy Design */}
         <Box sx={{ mt: 6 }}>
           <Typography 
             variant="h5" 
             sx={{ 
               color: themeColors[currentTheme].primary,
-              mb: 3, 
+              mb: 4, 
               fontWeight: 700,
               display: 'flex',
               alignItems: 'center',
               gap: 1,
-              fontSize: isMobile ? '1.25rem' : '1.5rem'
+              fontSize: isMobile ? '1.25rem' : '1.5rem',
+              textAlign: 'center',
+              justifyContent: 'center',
             }}
           >
-            <TrendingUpIcon /> Top Players
+            <EmojiEventsIcon sx={{ fontSize: '2rem', color: '#FFD700' }} /> Top Players
           </Typography>
-          <LeaderboardTable>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Rank</TableCell>
-                  <TableCell>Player</TableCell>
-                  <TableCell align="right">Total Wins</TableCell>
-                  <TableCell align="right">Earnings</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {leaderboardData.map((player) => (
-                  <StyledTableRow key={player.rank}>
-                    <TableCell>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        {player.rank === 1 && <EmojiEventsIcon sx={{ color: '#FFD700' }} />}
-                        {player.rank === 2 && <EmojiEventsIcon sx={{ color: '#C0C0C0' }} />}
-                        {player.rank === 3 && <EmojiEventsIcon sx={{ color: '#CD7F32' }} />}
-                        {player.rank}
-                      </Box>
-                    </TableCell>
-                    <TableCell>{player.username}</TableCell>
-                    <TableCell align="right">{player.totalWins}</TableCell>
-                    <TableCell align="right">{player.totalEarnings}</TableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </LeaderboardTable>
-        </Box>
-
-        {/* Ladder Leaderboard */}
-        <Box sx={{ mt: 6 }}>
-          <Typography 
-            variant="h5" 
-            sx={{ 
-              color: themeColors[currentTheme].primary,
-              mb: 3, 
-              fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-              fontSize: isMobile ? '1.25rem' : '1.5rem'
-            }}
-          >
-            <TrendingUpIcon /> Ladder Leaderboard
-          </Typography>
-          <LadderLeaderboard>
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: 3,
+            maxWidth: '600px',
+            margin: '0 auto',
+            position: 'relative',
+          }}>
             {leaderboardData.map((player, index) => (
-              <LadderRow key={player.rank} rank={player.rank}>
-                <RankNumber rank={player.rank}>{player.rank}</RankNumber>
-                <PlayerInfo>
-                  <PlayerAvatar>
-                    {player.username.charAt(0).toUpperCase()}
-                  </PlayerAvatar>
-                  <PlayerStats>
-                    <PlayerName>{player.username}</PlayerName>
-                    <PlayerEarnings>{player.totalEarnings}</PlayerEarnings>
-                  </PlayerStats>
-                </PlayerInfo>
+              <TrophyCard
+                key={player.rank}
+                sx={{
+                  transform: `perspective(1000px) rotateX(0deg) scale(${
+                    index === 0 ? 1.1 : 
+                    index === 1 ? 1.05 : 
+                    index === 2 ? 1 : 0.95
+                  })`,
+                  '&:hover': {
+                    transform: `perspective(1000px) rotateX(5deg) translateY(-5px) scale(${
+                      index === 0 ? 1.15 : 
+                      index === 1 ? 1.1 : 
+                      index === 2 ? 1.05 : 1
+                    })`,
+                  },
+                }}
+              >
+                <TrophyRank rank={player.rank}>
+                  {player.rank === 1 ? '🥇' : 
+                   player.rank === 2 ? '🥈' : 
+                   player.rank === 3 ? '🥉' : player.rank}
+                </TrophyRank>
                 <Box sx={{ 
-                  color: themeColors[currentTheme].primary,
-                  fontWeight: 'bold',
-                  fontSize: '1.1rem'
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 2,
+                  mt: 2
                 }}>
-                  {player.totalWins} wins
+                  <Box sx={{ 
+                    width: '60px', 
+                    height: '60px', 
+                    borderRadius: '50%',
+                    background: `linear-gradient(135deg, ${themeColors[currentTheme].primary}, ${themeColors[currentTheme].secondary})`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#fff',
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold',
+                    boxShadow: `0 0 15px ${themeColors[currentTheme].glow}`,
+                  }}>
+                    {player.username.charAt(0).toUpperCase()}
+                  </Box>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="h6" sx={{ 
+                      fontWeight: 700,
+                      color: themeColors[currentTheme].primary,
+                      mb: 0.5
+                    }}>
+                      {player.username}
+                    </Typography>
+                    <Typography variant="body2" sx={{ 
+                      color: themeColors[currentTheme].text,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 1
+                    }}>
+                      <EmojiEventsIcon sx={{ fontSize: '1rem', color: '#FFD700' }} />
+                      {player.totalWins} wins
+                    </Typography>
+                  </Box>
+                  <Box sx={{ 
+                    textAlign: 'right',
+                    background: `${themeColors[currentTheme].primary}15`,
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: `1px solid ${themeColors[currentTheme].border}`,
+                  }}>
+                    <Typography variant="subtitle2" sx={{ 
+                      color: themeColors[currentTheme].primary,
+                      fontWeight: 600
+                    }}>
+                      {player.totalEarnings}
+                    </Typography>
+                    <Typography variant="caption" sx={{ 
+                      color: themeColors[currentTheme].text,
+                      display: 'block'
+                    }}>
+                      Total Earnings
+                    </Typography>
+                  </Box>
                 </Box>
-              </LadderRow>
+              </TrophyCard>
             ))}
-          </LadderLeaderboard>
+          </Box>
         </Box>
       </Container>
     </Box>
@@ -989,7 +1059,13 @@ const GameSection = ({
 }) => {
   const theme = useTheme();
   return (
-    <Box sx={{ mb: 6 }}>
+    <Box sx={{ 
+      mb: 6,
+      background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].sectionBg,
+      borderRadius: '20px',
+      padding: '24px',
+      border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
+    }}>
       <Typography 
         variant="h5" 
         sx={{ 
@@ -999,14 +1075,16 @@ const GameSection = ({
           display: 'flex',
           alignItems: 'center',
           gap: 1,
-          fontSize: isMobile ? '1.25rem' : '1.5rem'
+          fontSize: isMobile ? '1.25rem' : '1.5rem',
+          textTransform: 'uppercase',
+          letterSpacing: '1px',
         }}
       >
         {title}
       </Typography>
-      <Grid container spacing={isMobile ? 2 : 3} justifyContent="center">
+      <Grid container spacing={isMobile ? 1 : 3} justifyContent="center">
         {games.map((game) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={game.id}>
+          <Grid item xs={6} sm={6} md={4} lg={3} key={game.id}>
             <StyledCard 
               onClick={() => onGameClick(game.path)}
               className={isBlueTheme ? 'blue-theme' : ''}
@@ -1029,16 +1107,17 @@ const GameSection = ({
                 <PlayOverlay className="play-overlay">
                   <Button
                     variant="contained"
-                    startIcon={<PlayArrowIcon />}
+                    startIcon={<PlayArrowIcon sx={{ fontSize: '1.2rem' }} />}
                     sx={{
-                      bgcolor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
+                      backgroundImage: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary})`,
                       color: '#fff',
                       '&:hover': {
-                        bgcolor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary,
+                        backgroundImage: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary})`,
                       },
-                      borderRadius: '12px',
-                      px: 3,
-                      py: 1,
+                      borderRadius: '8px',
+                      px: 2,
+                      py: 0.5,
+                      fontSize: '0.8rem',
                       boxShadow: `0 0 15px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
                     }}
                   >
@@ -1046,13 +1125,13 @@ const GameSection = ({
                   </Button>
                 </PlayOverlay>
               </Box>
-              <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 1 }}>
                 <GameTitle variant="h6">
                   {game.name}
                 </GameTitle>
                 <GameStats>
                   <StatItem>
-                    <TrendingUpIcon sx={{ color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary }} />
+                    <TrendingUpIcon sx={{ fontSize: '1rem', color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary }} />
                     {game.multiplier}
                   </StatItem>
                   <StatItem>
@@ -1068,74 +1147,132 @@ const GameSection = ({
   );
 };
 
-// Add new LadderLeaderboard component
-const LadderLeaderboard = styled(Box)(({ theme }) => ({
-  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
+// Add new styled components for trophy design
+const TrophyCard = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].sectionBg,
   borderRadius: '16px',
+  padding: '16px',
   border: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
-  overflow: 'hidden',
-  marginTop: '2rem',
-}));
-
-const LadderRow = styled(Box)<{ rank: number }>(({ theme, rank }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: '1rem',
-  borderBottom: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
-  background: rank <= 3 ? `${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}15` : 'transparent',
-  '&:last-child': {
-    borderBottom: 'none',
+  boxShadow: `0 0 20px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
+  transform: 'perspective(1000px) rotateX(0deg)',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    transform: 'perspective(1000px) rotateX(5deg) translateY(-5px)',
+    boxShadow: `0 0 30px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
+  },
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}10, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary}10)`,
+    borderRadius: '16px',
+    zIndex: -1,
   },
 }));
 
-const RankNumber = styled(Box)<{ rank: number }>(({ theme, rank }) => ({
+const TrophyRank = styled(Box)<{ rank: number }>(({ theme, rank }) => ({
+  position: 'absolute',
+  top: '-20px',
+  left: '50%',
+  transform: 'translateX(-50%)',
   width: '40px',
   height: '40px',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  marginRight: '1rem',
-  background: rank === 1 ? '#FFD700' : 
-             rank === 2 ? '#C0C0C0' : 
-             rank === 3 ? '#CD7F32' : 
+  background: rank === 1 ? 'linear-gradient(135deg, #FFD700, #FFA500)' :
+             rank === 2 ? 'linear-gradient(135deg, #C0C0C0, #A9A9A9)' :
+             rank === 3 ? 'linear-gradient(135deg, #CD7F32, #B87333)' :
              themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
+  boxShadow: `0 0 15px ${rank === 1 ? '#FFD700' : rank === 2 ? '#C0C0C0' : rank === 3 ? '#CD7F32' : themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
   color: rank <= 3 ? '#000' : themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].text,
   fontWeight: 'bold',
+  fontSize: '1.2rem',
+  border: `2px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
 }));
 
-const PlayerInfo = styled(Box)(({ theme }) => ({
-  flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1rem',
+// Add new styled components for hero section
+const HeroContent = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  padding: theme.spacing(4),
+  background: `linear-gradient(transparent, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background}CC)`,
+  transform: 'translateY(0)',
+  transition: 'transform 0.5s ease',
+  zIndex: 2,
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'rgba(0,0,0,0.3)',
+    zIndex: -1,
+  },
 }));
 
-const PlayerAvatar = styled(Box)(({ theme }) => ({
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].text,
+const HeroImage = styled(CardMedia)({
+  height: '100%',
+  transition: 'transform 0.5s ease',
+  transform: 'scale(1)',
+  objectFit: 'cover',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%)',
+    opacity: 0.8,
+  },
+}) as typeof CardMedia;
+
+const HeroTitle = styled(NeonText)(({ theme }) => ({
+  fontSize: '3.5rem',
+  fontWeight: 900,
+  textShadow: `0 0 20px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}, 0 0 30px rgba(0,0,0,0.5)`,
+  marginBottom: theme.spacing(2),
+  transform: 'translateZ(50px)',
+  '@media (max-width: 600px)': {
+    fontSize: '2.5rem',
+  },
 }));
 
-const PlayerStats = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.25rem',
+const HeroSubtitle = styled(Typography)(({ theme }) => ({
+  fontSize: '1.5rem',
+  color: '#fff',
+  marginBottom: theme.spacing(3),
+  transform: 'translateZ(30px)',
+  textShadow: '0 0 10px rgba(0,0,0,0.5)',
+  '@media (max-width: 600px)': {
+    fontSize: '1.2rem',
+  },
 }));
 
-const PlayerName = styled(Typography)(({ theme }) => ({
-  color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].text,
-  fontWeight: 'bold',
-}));
-
-const PlayerEarnings = styled(Typography)(({ theme }) => ({
-  color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
-  fontSize: '0.875rem',
+const HeroButton = styled(Button)(({ theme }) => ({
+  background: `linear-gradient(135deg, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}, ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].secondary})`,
+  color: '#fff',
+  padding: '12px 32px',
+  borderRadius: '30px',
+  fontSize: '1.1rem',
+  fontWeight: 700,
+  textTransform: 'none',
+  boxShadow: `0 0 20px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
+  transform: 'translateZ(20px)',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    transform: 'translateZ(20px) scale(1.05)',
+    boxShadow: `0 0 30px ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].glow}`,
+  },
 }));
 
 export default GamesPage;
