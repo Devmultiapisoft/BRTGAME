@@ -1,5 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Box, LinearProgress, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+const ProgressContainer = styled(Box)({
+  width: '100%',
+  marginBottom: '8px',
+});
+
+const StyledProgress = styled(LinearProgress)({
+  height: '8px',
+  borderRadius: '4px',
+  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  '& .MuiLinearProgress-bar': {
+    borderRadius: '4px',
+    background: 'linear-gradient(90deg, #00FF88 0%, #00CC6A 100%)',
+  },
+});
+
+const ProgressText = styled(Typography)({
+  fontSize: '0.75rem',
+  color: '#B0B0B0',
+  textAlign: 'center',
+  marginTop: '4px',
+});
 
 interface ProgressBarProps {
   total: number;
@@ -21,23 +44,19 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ total, progressBarId, progres
   const progress = (current / total) * 100;
 
   return (
-    <Box sx={{ width: '100%', mb: 2 }}>
-      <LinearProgress 
+    <ProgressContainer>
+      <StyledProgress 
         id={progressBarId}
         variant="determinate" 
         value={progress} 
-        sx={{ height: 10, borderRadius: 5 }}
       />
-      <Typography 
+      <ProgressText 
         id={progressTextId}
-        variant="body2" 
-        color="text.secondary" 
-        align="center"
-        sx={{ mt: 1 }}
+        variant="body2"
       >
         {current} / {total}
-      </Typography>
-    </Box>
+      </ProgressText>
+    </ProgressContainer>
   );
 };
 
