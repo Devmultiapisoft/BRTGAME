@@ -239,7 +239,15 @@ const Navbar: React.FC<NavbarProps> = ({ isMobile, onThemeChange, currentTheme }
               <IconButton sx={{ color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary }}>
                 <SearchIcon />
               </IconButton>
-              <IconButton sx={{ color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary }}>
+              <IconButton 
+                onClick={() => navigate('/notification')}
+                sx={{ 
+                  color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary,
+                  '&:hover': {
+                    background: `${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].primary}20`,
+                  }
+                }}
+              >
                 <NotificationsIcon />
               </IconButton>
             </Stack>

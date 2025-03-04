@@ -33,7 +33,8 @@ import {
   Menu,
   School,
   Info,
-  Support
+  Support,
+  Fullscreen
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
@@ -62,20 +63,52 @@ const GlowPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
-const MemberDashboard = () => {
-    const navigate = useNavigate();
+// Add type for button colors
+type ButtonColor = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'info';
 
-    useEffect(() => {
-        window.scrollTo(0, 0); // Scroll to top on mount
-      }, []);
-    
+interface ActionButton {
+  text: string;
+  icon: React.ReactNode;
+  color: ButtonColor;
+}
+
+interface ServiceButton {
+  text: string;
+  icon: React.ReactNode;
+  color: ButtonColor;
+  Nav: () => void;
+}
+
+const MemberDashboard = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const actionButtons: ActionButton[] = [
+    { text: 'Wallet', icon: <AccountBalanceWallet />, color: 'primary' },
+    { text: 'Deposit', icon: <CreditCard />, color: 'secondary' },
+    { text: 'Withdraw', icon: <MoneyOff />, color: 'error' },
+    { text: 'SVIP', icon: <Diamond />, color: 'warning' }
+  ];
+
+  const serviceButtons: ServiceButton[] = [
+    { text: 'Settings', icon: <Settings />, color: 'primary', Nav: () => navigate('/settings') },
+    { text: 'Customer Service', icon: <Support />, color: 'secondary', Nav: () => navigate('/customer-service') },
+    { text: 'Beginner\'s Guide', icon: <School />, color: 'info', Nav: () => navigate('#') },
+    { text: 'Feedback', icon: <Feedback />, color: 'warning', Nav: () => navigate('/feedback') },
+    { text: 'Announcement', icon: <Announcement />, color: 'success', Nav: () => navigate('/announcement') },
+    { text: 'About Us', icon: <Info />, color: 'error', Nav: () => navigate('/about-us') }
+  ];
+
   return (
     <AnimatedBox
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       sx={{
-        maxWidth: 375,
+        maxWidth: '100%',
         margin: '0 auto',
         p: 3,
         bgcolor: 'background.default',
@@ -125,12 +158,7 @@ const MemberDashboard = () => {
 
       {/* Action Buttons */}
       <Grid container spacing={2} sx={{ mb: 4 }}>
-        {[
-          { text: 'Wallett', icon: <AccountBalanceWallet />, color: 'primary' },
-          { text: 'Deposit', icon: <CreditCard />, color: 'secondary' },
-          { text: 'Withdraw', icon: <MoneyOff />, color: 'error' },
-          { text: 'SVIP', icon: <Diamond />, color: 'warning' }
-        ].map((btn, index) => (
+        {actionButtons.map((btn, index) => (
           <Grid item xs={6} key={index}>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
@@ -142,7 +170,7 @@ const MemberDashboard = () => {
                   height: 80, 
                   flexDirection: 'column', 
                   borderRadius: 2,
-                  boxShadow: theme => `0 4px 20px ${theme.palette[btn.color].light}`
+                  boxShadow: theme => `0 4px 20px ${theme.palette[btn.color].main}`
                 }}
               >
                 <Typography variant="button" sx={{ fontWeight: 700 }}>{btn.text}</Typography>
@@ -159,7 +187,7 @@ const MemberDashboard = () => {
           { icon: <SwapHoriz />, primary: 'Transaction', secondary: 'My transaction history' },
           { icon: <AccountBalance />, primary: 'Deposit', secondary: 'My deposit history' },
           { icon: <AccountBalance />, primary: 'Withdraw', secondary: 'My withdraw history' },
-          { icon: <NotificationsActive />, primary: 'Notification', Redirect : ()=>navigate("/notification")},
+          { icon: <NotificationsActive />, primary: 'Notification', secondary: 'View your notifications', onClick: () => navigate('/notifications') },
           { icon: <CardGiftcard />, primary: 'Gifts' },
           { icon: <Equalizer />, primary: 'Game Statistics' },
           { icon: <Translate />, primary: 'Language', secondary: 'English' },
@@ -170,13 +198,21 @@ const MemberDashboard = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <ListItem button sx={{ py: 2 }}>
+            <ListItem 
+              sx={{ 
+                py: 2,
+                cursor: 'pointer',
+                '&:hover': {
+                  bgcolor: 'action.hover',
+                }
+              }}
+              onClick={item.onClick}
+            >
               <ListItemIcon sx={{ minWidth: 40 }}>{item.icon}</ListItemIcon>
               <ListItemText
                 primary={item.primary}
                 secondary={item.secondary}
                 primaryTypographyProps={{ fontWeight: 600 }}
-                onClick={item.Redirect}
               />
             </ListItem>
             <Divider variant="inset" />
@@ -209,14 +245,7 @@ const MemberDashboard = () => {
         </Typography>
 
         <Grid container spacing={1}>
-          {[
-            { text: 'Settings', icon: <Settings />, color: 'primary', Nav: () => navigate('/settings') },
-            { text: 'Customer Service', icon: <Support />, color: 'secondary', Nav: () => navigate('/customer-service') },
-            { text: 'Beginner\'s Guide', icon: <School />, color: 'info', Nav: () => navigate('#') },
-            { text: 'Feedback', icon: <Feedback />, color: 'warning', Nav: () => navigate('/feedback') },
-            { text: 'Announcement', icon: <Announcement />, color: 'success', Nav: () => navigate('/announcement') },
-            { text: 'About Us', icon: <Info />, color: 'error', Nav: () => navigate('/about-us') }
-          ].map((item) => (
+          {serviceButtons.map((item) => (
             <Grid item xs={4} key={item.text}>
               <motion.div 
                 whileHover={{ 
@@ -238,7 +267,7 @@ const MemberDashboard = () => {
                     fontWeight: 100,
                     flexDirection: 'column',
                     gap: 1,
-                    boxShadow: theme => `0 4px 16px ${theme.palette[item.color].light}`
+                    boxShadow: theme => `0 4px 16px ${theme.palette[item.color].main}`
                   }}
                   onClick={item.Nav}
                 >

@@ -99,7 +99,7 @@ const App: React.FC = () => {
               <Routes>
 
                
-                <Route path="/profile" element={<Account/>} />
+                <Route path="/account" element={<Account/>} />
                 <Route path="/settings" element={<SettingsPage/>} />
                 <Route path="/change-password" element={<ChangePasswordPage/>} />
                 <Route path="/feedback" element={<FeedbackPage />} />
