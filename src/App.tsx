@@ -40,10 +40,14 @@ import NewSubordinates from './views/subordinate/NewSubordinates';
 import InvitationRules from './views/invitation/InvitationRules';
 import CustomerService from './views/agent/CustomerService';
 import RebateRatio from './views/rebate/RebateRatio';
-import WinGo from './views/games/WinGo';
-import WinGo3 from './views/games/WinGo3';
-import WinGo5 from './views/games/WinGo5';
-import WinGo10 from './views/games/WinGo10';
+import WinGo from './views/games/wingo/WinGo';
+import WinGo3 from './views/games/wingo/WinGo3';
+import WinGo5 from './views/games/wingo/WinGo5';
+import WinGo10 from './views/games/wingo/WinGo10';
+import Trx1Min from './views/games/trx/Trx1Min';
+import Trx3Min from './views/games/trx/Trx3Min';
+import Trx5Min from './views/games/trx/Trx5Min';
+import TrxGames from './views/games/trx/TrxGames';
 
 
 // Mobile container wrapper
@@ -96,7 +100,7 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [total]);
 
-  const handleThemeChange = (newTheme: 'blue' | 'green' | 'skyblue' | 'white') => {
+  const handleThemeChange = (newTheme: keyof typeof themeColors) => {
     setCurrentTheme(newTheme);
   };
 
@@ -158,9 +162,15 @@ const App: React.FC = () => {
                   <Route path="/wallet/withdrawHistory" element={<WithdrawHistoryPage />} />
                   <Route path='/bet-history' element={<BetHistoryPage/>} />
                   <Route path="/wingo" element={<WinGo />} />
-                  <Route path="/wingo/3" element={<WinGo3 />} />
-                  <Route path="/wingo/5" element={<WinGo5 />} />
-                  <Route path="/wingo/10" element={<WinGo10 />} />
+                
+                  <Route path="/wingo/1min" element={<WinGo />} />
+                  <Route path="/wingo/3min" element={<WinGo3 />} />
+                  <Route path="/wingo/5min" element={<WinGo5 />} />
+                  <Route path="/wingo/10min" element={<WinGo10 />} />
+                  <Route path="/trx" element={<TrxGames />} />
+                  <Route path="/trx/1min" element={<Trx1Min />} />
+                  <Route path="/trx/3min" element={<Trx3Min />} />
+                  <Route path="/trx/5min" element={<Trx5Min />} />
                   {/* Add more routes as needed */}
                 </Routes>
               </Container>  
