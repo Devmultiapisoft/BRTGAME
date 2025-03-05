@@ -48,6 +48,7 @@ import Trx1Min from './views/games/trx/Trx1Min';
 import Trx3Min from './views/games/trx/Trx3Min';
 import Trx5Min from './views/games/trx/Trx5Min';
 import TrxGames from './views/games/trx/TrxGames';
+import Trx10Min from './views/games/trx/Trx10Min';
 
 
 // Mobile container wrapper
@@ -167,10 +168,11 @@ const App: React.FC = () => {
                   <Route path="/wingo/3min" element={<WinGo3 />} />
                   <Route path="/wingo/5min" element={<WinGo5 />} />
                   <Route path="/wingo/10min" element={<WinGo10 />} />
-                  <Route path="/trx" element={<TrxGames />} />
+                  <Route path="/trx" element={<Trx1Min />} />
                   <Route path="/trx/1min" element={<Trx1Min />} />
                   <Route path="/trx/3min" element={<Trx3Min />} />
                   <Route path="/trx/5min" element={<Trx5Min />} />
+                  <Route path="/trx/10min" element={<Trx10Min />} />
                   {/* Add more routes as needed */}
                 </Routes>
               </Container>  
