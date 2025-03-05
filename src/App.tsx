@@ -33,7 +33,7 @@ import DepositPage from './pages/wallet/Deposit';
 import WithdrawPage from './pages/wallet/Withdraw';
 import DepositHistoryPage from './pages/wallet/DepositHistoryPage';
 import WithdrawHistoryPage from './pages/wallet/WithdrawalHistoryPage';
-import BetHistoryPage from "./components/BetHistory/BetHistory"
+import BetHistoryPage from './components/BetHistory/BetHistory';
 import CommissionDetails from './views/commission/CommissionDetails';
 import SubordinateData from './views/subordinate/SubordinateData';
 import NewSubordinates from './views/subordinate/NewSubordinates';
@@ -49,7 +49,7 @@ import WinGo10 from './views/games/WinGo10';
 // Mobile container wrapper
 const MobileContainer = styled(Box)(({ theme }) => ({
   width: '100%',
-  maxWidth: '480px',
+  maxWidth: '480px', // Fixed width for mobile layout
   margin: '0 auto',
   minHeight: '100vh',
   position: 'relative',
@@ -58,6 +58,11 @@ const MobileContainer = styled(Box)(({ theme }) => ({
   backdropFilter: 'blur(20px)',
   display: 'flex',
   flexDirection: 'column',
+  boxShadow: '0 0 20px rgba(0,0,0,0.1)', // Add shadow for container
+  '@media (min-width: 480px)': {
+    borderLeft: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
+    borderRight: `1px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
+  }
 }));
 
 const App: React.FC = () => {
@@ -91,85 +96,91 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [total]);
 
-  const handleThemeChange = (newTheme: keyof typeof themeColors) => {
+  const handleThemeChange = (newTheme: 'blue' | 'green' | 'skyblue' | 'white') => {
     setCurrentTheme(newTheme);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <MobileContainer>
-          <CssBaseline />
-          <Navbar isMobile={true} onThemeChange={handleThemeChange} currentTheme={currentTheme} />
-          <Box sx={{
-            flex: 1,
-            pt: '56px',
-            pb: '56px',
-            position: 'relative',
-            overflowX: 'hidden',
-            width: '100%',
-            maxWidth: '480px',
-            margin: '0 auto',
-            backgroundColor: themeColors[currentTheme].background,
-            backdropFilter: 'blur(20px)',
-          }}>
-            <Container 
-           
-              disableGutters 
-              sx={{ 
-                width: '100%',
-                height: '100%',
-                p: 0,
-              }}
-            >
-              <Routes>
-                <Route path="/account" element={<Account />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="/change-password" element={<ChangePasswordPage />} />
-                <Route path="/feedback" element={<FeedbackPage />} />
-                <Route path="/announcement" element={<AnnouncementPage />} />
-                <Route path="/customer-service" element={<CustomerServicePage />} />
-                <Route path="/about-us" element={<AboutPage />} />
-                <Route path="/agreement/:type" element={<AgreementPage type={1} />} />
-                <Route path="/notification" element={<NotificationPage />} />
-                <Route path="/" element={<GamesPage onThemeChange={handleThemeChange} currentTheme={currentTheme} />} />
-                <Route path="/commission" element={<CommissionPage />} />
-                <Route path="/commission/details" element={<CommissionDetails />} />
-                <Route path="/subordinate/data" element={<SubordinateData />} />
-                <Route path="/subordinate/new" element={<NewSubordinates />} />
-                <Route path="/invitation/rules" element={<InvitationRules />} />
-                <Route path="/agent/customer-service" element={<CustomerService />} />
-                <Route path="/rebate/ratio" element={<RebateRatio />} />
-                <Route path="/promotion" element={<PromotionPage onThemeChange={handleThemeChange} />} />
-                <Route path="/wallet" element={<WalletPage />} />
-                <Route path="/wallet/deposit" element={<DepositPage />} />
-                <Route path="/wallet/withdraw" element={<WithdrawPage />} />
-                <Route path="wallet/depositHistory" element={<DepositHistoryPage />} />
-                <Route path="/wallet/withdrawHistory" element={<WithdrawHistoryPage />} />
-                <Route path='/bet-history' element={<BetHistoryPage/>} />
-                <Route path="/wingo/1" element={<WinGo />} />
-                <Route path="/wingo/3" element={<WinGo3 />} />
-                <Route path="/wingo/5" element={<WinGo5 />} />
-                <Route path="/wingo/10" element={<WinGo10 />} />
-                {/* Add more routes as needed */}
-              </Routes>
-            </Container>  
-          </Box>
-          <Box sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1000,
-            maxWidth: '480px',
-            margin: '0 auto',
-            backgroundColor: themeColors[currentTheme].background,
-            backdropFilter: 'blur(20px)',
-            borderTop: `1px solid ${themeColors[currentTheme].border}`,
-          }}>
-          </Box>
-        </MobileContainer>
-        <Footer currentTheme={currentTheme} />
+        <Box sx={{ 
+          width: '100%',
+          minHeight: '100vh',
+          backgroundColor: theme => themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
+        }}>
+            <Navbar isMobile={true} onThemeChange={handleThemeChange} currentTheme={currentTheme} />
+          <MobileContainer>
+            <CssBaseline />
+            <Box sx={{
+              flex: 1,
+              pt: '56px', // Navbar height
+              pb: '56px', // Footer height
+              position: 'relative',
+              overflowX: 'hidden',
+              width: '100%',
+              maxWidth: '480px',
+              margin: '0 auto',
+              backgroundColor: themeColors[currentTheme].background,
+              backdropFilter: 'blur(20px)',
+            }}>
+              <Container 
+                disableGutters 
+                sx={{ 
+                  width: '100%',
+                  height: '100%',
+                  p: 0,
+                  maxWidth: '480px !important', // Override Material-UI's default container width
+                }}
+              >
+                <Routes>
+                  <Route path="/account" element={<Account />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/change-password" element={<ChangePasswordPage />} />
+                  <Route path="/feedback" element={<FeedbackPage />} />
+                  <Route path="/announcement" element={<AnnouncementPage />} />
+                  <Route path="/customer-service" element={<CustomerServicePage />} />
+                  <Route path="/about-us" element={<AboutPage />} />
+                  <Route path="/agreement/:type" element={<AgreementPage type={1} />} />
+                  <Route path="/notification" element={<NotificationPage />} />
+                  <Route path="/" element={<GamesPage onThemeChange={handleThemeChange} currentTheme={currentTheme} />} />
+                  <Route path="/commission" element={<CommissionPage />} />
+                  <Route path="/commission/details" element={<CommissionDetails />} />
+                  <Route path="/subordinate/data" element={<SubordinateData />} />
+                  <Route path="/subordinate/new" element={<NewSubordinates />} />
+                  <Route path="/invitation/rules" element={<InvitationRules />} />
+                  <Route path="/agent/customer-service" element={<CustomerService />} />
+                  <Route path="/rebate/ratio" element={<RebateRatio />} />
+                  <Route path="/promotion" element={<PromotionPage onThemeChange={handleThemeChange} />} />
+                  <Route path="/wallet" element={<WalletPage />} />
+                  <Route path="/wallet/deposit" element={<DepositPage />} />
+                  <Route path="/wallet/withdraw" element={<WithdrawPage />} />
+                  <Route path="wallet/depositHistory" element={<DepositHistoryPage />} />
+                  <Route path="/wallet/withdrawHistory" element={<WithdrawHistoryPage />} />
+                  <Route path='/bet-history' element={<BetHistoryPage/>} />
+                  <Route path="/wingo" element={<WinGo />} />
+                  <Route path="/wingo/3" element={<WinGo3 />} />
+                  <Route path="/wingo/5" element={<WinGo5 />} />
+                  <Route path="/wingo/10" element={<WinGo10 />} />
+                  {/* Add more routes as needed */}
+                </Routes>
+              </Container>  
+            </Box>
+            <Box sx={{
+              position: 'fixed',
+              bottom: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '100%',
+              maxWidth: '480px',
+              zIndex: 1000,
+              backgroundColor: themeColors[currentTheme].background,
+              backdropFilter: 'blur(20px)',
+              borderTop: `1px solid ${themeColors[currentTheme].border}`,
+            }}>
+            </Box>
+          </MobileContainer>
+              <Footer currentTheme={currentTheme} />
+        </Box>
       </Router>
     </ThemeProvider>
   );
