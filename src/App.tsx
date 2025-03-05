@@ -40,6 +40,17 @@ import NewSubordinates from './views/subordinate/NewSubordinates';
 import InvitationRules from './views/invitation/InvitationRules';
 import CustomerService from './views/agent/CustomerService';
 import RebateRatio from './views/rebate/RebateRatio';
+
+
+import DailyCommission from './views/commission/DailyCommission';
+import WeeklyBonus from './views/commission/WeeklyBonus';
+import MyTeam from './views/commission/MyTeam';
+import TurnOver from './views/commission/TurnOver';
+import MonthlyRewards from './views/commission/MonthlyRewards';
+import TeamBonus from './views/commission/TeamBonus';
+import K3GamePage from './views/games/K3/K3';
+import Game5D from './views/games/5D/5D';
+
 import WinGo from './views/games/wingo/WinGo';
 import WinGo3 from './views/games/wingo/WinGo3';
 import WinGo5 from './views/games/wingo/WinGo5';
@@ -49,6 +60,7 @@ import Trx3Min from './views/games/trx/Trx3Min';
 import Trx5Min from './views/games/trx/Trx5Min';
 import TrxGames from './views/games/trx/TrxGames';
 import Trx10Min from './views/games/trx/Trx10Min';
+
 
 
 // Mobile container wrapper
@@ -163,6 +175,17 @@ const App: React.FC = () => {
                   <Route path="/wallet/withdrawHistory" element={<WithdrawHistoryPage />} />
                   <Route path='/bet-history' element={<BetHistoryPage/>} />
                   <Route path="/wingo" element={<WinGo />} />
+
+                 
+                  <Route path="/daily-commission" element={<DailyCommission/>} />
+                  <Route path="/weekly-bonus" element={<WeeklyBonus />} />
+                  <Route path="/myteam-trade" element={<MyTeam />} />
+                  <Route path="/turnover" element={<TurnOver />} />
+                  <Route path="/monthly-reward" element={<MonthlyRewards/>} />
+                  <Route path='/k3' element={<K3GamePage/>}/>
+                  <Route path='/5D' element={<Game5D/>}></Route>
+                  <Route path="/team-bonus" element={<TeamBonus />} />
+
                 
                   <Route path="/wingo/1min" element={<WinGo />} />
                   <Route path="/wingo/3min" element={<WinGo3 />} />
@@ -173,6 +196,7 @@ const App: React.FC = () => {
                   <Route path="/trx/3min" element={<Trx3Min />} />
                   <Route path="/trx/5min" element={<Trx5Min />} />
                   <Route path="/trx/10min" element={<Trx10Min />} />
+
                   {/* Add more routes as needed */}
                 </Routes>
               </Container>  
