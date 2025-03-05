@@ -1,5 +1,3 @@
-declare module './BetHistory' {
-  import { FC } from 'react';
-  const BetHistoryPage: FC;
-  export default BetHistoryPage;
-} 
+import { FC } from 'react';
+const BetHistoryPage: FC<{}>;
+export default BetHistoryPage; 

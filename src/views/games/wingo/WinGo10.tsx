@@ -14,13 +14,14 @@ import {
   TableRow,
   Button,
   useTheme,
+  Tabs,
+  Tab,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
-import { themeColors } from '../../theme';
+import { themeColors } from '../../../theme';
 
-// Styled Components
 const GameHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -112,6 +113,35 @@ const TimerSection = styled(Box)(({ theme }) => ({
   },
 }));
 
+const DiceContainer = styled(Box)(({ theme }) => ({
+  width: '80px',
+  height: '80px',
+  margin: '20px auto',
+  position: 'relative',
+  perspective: '1000px',
+  '& .dice': {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+    transformStyle: 'preserve-3d',
+    transition: 'transform 1s',
+    '& .face': {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      border: `2px solid ${themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].border}`,
+      borderRadius: '10px',
+      background: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '2em',
+      fontWeight: 'bold',
+      color: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].text,
+    }
+  }
+}));
+
 const ColorButton = styled(Button)(({ theme }) => ({
   borderRadius: '5px',
   padding: '10px',
@@ -187,12 +217,14 @@ const HistoryTabs = styled(Box)(({ theme }) => ({
   },
 }));
 
-const WinGo: React.FC = () => {
+const WinGo10: React.FC = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 21 });
+  const [timeLeft, setTimeLeft] = useState({ minutes: 9, seconds: 21 });
   const [currentPeriod, setCurrentPeriod] = useState('2503042559');
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+  const [diceNumber, setDiceNumber] = useState(1);
+  const [isRolling, setIsRolling] = useState(false);
   const [historyTab, setHistoryTab] = useState('game');
   const [gameHistory, setGameHistory] = useState([
     { period: '2503042558', number: '1', size: 'Small', color: 'Green' },
@@ -206,7 +238,7 @@ const WinGo: React.FC = () => {
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         if (prev.seconds === 0) {
-          return { minutes: prev.minutes === 0 ? 0 : prev.minutes - 1, seconds: 59 };
+          return { minutes: prev.minutes === 0 ? 9 : prev.minutes - 1, seconds: 59 };
         }
         return { ...prev, seconds: prev.seconds - 1 };
       });
@@ -215,8 +247,28 @@ const WinGo: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const rollDice = () => {
+    if (!isRolling) {
+      setIsRolling(true);
+      const rolls = 10;
+      let currentRoll = 0;
+
+      const rollInterval = setInterval(() => {
+        const newNumber = Math.floor(Math.random() * 6) + 1;
+        setDiceNumber(newNumber);
+        currentRoll++;
+
+        if (currentRoll >= rolls) {
+          clearInterval(rollInterval);
+          setIsRolling(false);
+        }
+      }, 100);
+    }
+  };
+
   const handleNumberClick = (number: number) => {
     setSelectedNumber(number);
+    rollDice();
   };
 
   return (
@@ -234,28 +286,29 @@ const WinGo: React.FC = () => {
       </GameHeader>
 
       <GameTabs>
-        <Box className="tab-item active">
-          <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 30s" />
-          <span>30s</span>
-        </Box>
-        <Box className="tab-item">
-          <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 1Min" />
-          <span>1Min</span>
-        </Box>
-        <Box className="tab-item">
-          <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 3Min" />
-          <span>3Min</span>
-        </Box>
-        <Box className="tab-item">
-          <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 5Min" />
-          <span>5Min</span>
-        </Box>
-      </GameTabs>
+       
+       <Box className="tab-item" onClick={() => navigate('/wingo/1min')}>  
+         <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 1Min" />
+         <span>1Min</span>
+       </Box>
+       <Box className="tab-item" onClick={() => navigate('/wingo/3min')}>  
+         <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 5Min" />
+         <span>3Min</span>
+       </Box>
+       <Box className="tab-item " onClick={() => navigate('/wingo/5min')}>  
+         <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 30s" />
+         <span>5Min</span>
+       </Box>
+       <Box className="tab-item active" onClick={() => navigate('/wingo/10min')}>  
+         <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 10Min" />
+         <span>10Min</span>
+       </Box>
+     </GameTabs>
 
       <TimerSection>
         <Box className="timer-content">
           <Box className="left-section">
-            <Typography className="game-name">Win Go 30s</Typography>
+            <Typography className="game-name">Win Go 10M</Typography>
             <Typography className="period-number">{currentPeriod}</Typography>
           </Box>
           <Box className="right-section">
@@ -266,6 +319,19 @@ const WinGo: React.FC = () => {
         </Box>
         <Box className="progress-bar" />
       </TimerSection>
+
+      <DiceContainer>
+        <Box 
+          className="dice" 
+          onClick={rollDice}
+          sx={{
+            transform: isRolling ? 'rotateX(720deg) rotateY(720deg)' : 'none',
+            transition: 'transform 1s'
+          }}
+        >
+          <Box className="face">{diceNumber}</Box>
+        </Box>
+      </DiceContainer>
 
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2} sx={{ mb: 2 }}>
@@ -367,4 +433,4 @@ const WinGo: React.FC = () => {
   );
 };
 
-export default WinGo; 
+export default WinGo10; 

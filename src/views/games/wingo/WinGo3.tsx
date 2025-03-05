@@ -20,7 +20,7 @@ import {
 import { styled } from '@mui/material/styles';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
-import { themeColors } from '../../theme';
+import { themeColors } from '../../../theme';
 
 const GameHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -272,7 +272,7 @@ const WinGo3: React.FC = () => {
   };
 
   return (
-    <Box sx={{ 
+    <Box sx={{
       bgcolor: themeColors[theme.palette.mode === 'dark' ? 'green' : 'blue'].background,
       minHeight: '100vh',
       backdropFilter: 'blur(20px)'
@@ -286,23 +286,24 @@ const WinGo3: React.FC = () => {
       </GameHeader>
 
       <GameTabs>
-        <Box className="tab-item">
-          <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 30s" />
-          <span>30s</span>
-        </Box>
-        <Box className="tab-item">
-          <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 1Min" />
-          <span>1Min</span>
-        </Box>
-        <Box className="tab-item active">
-          <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 3Min" />
-          <span>3Min</span>
-        </Box>
-        <Box className="tab-item">
-          <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 5Min" />
-          <span>5Min</span>
-        </Box>
-      </GameTabs>
+       
+       <Box className="tab-item" onClick={() => navigate('/wingo/1min')}>  
+         <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 1Min" />
+         <span>1Min</span>
+       </Box>
+       <Box className="tab-item active" onClick={() => navigate('/wingo/3min')}>  
+         <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 5Min" />
+         <span>3Min</span>
+       </Box>
+       <Box className="tab-item " onClick={() => navigate('/wingo/5min')}>  
+         <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 30s" />
+         <span>5Min</span>
+       </Box>
+       <Box className="tab-item" onClick={() => navigate('/wingo/10min')}>  
+         <img src="https://in.piccdn123.com/static/_template_/orange/img/game/time_cur.png" alt="Win Go 10Min" />
+         <span>10Min</span>
+       </Box>
+     </GameTabs>
 
       <TimerSection>
         <Box className="timer-content">
@@ -320,8 +321,8 @@ const WinGo3: React.FC = () => {
       </TimerSection>
 
       <DiceContainer>
-        <Box 
-          className="dice" 
+        <Box
+          className="dice"
           onClick={rollDice}
           sx={{
             transform: isRolling ? 'rotateX(720deg) rotateY(720deg)' : 'none',

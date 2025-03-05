@@ -60,6 +60,7 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { TransitionProps } from '@mui/material/transitions';
 import CountUp from 'react-countup';
 
+
 // Animation keyframes
 const gradientGlow = keyframes`
   0% { background-position: 0% 50%; }
@@ -483,9 +484,10 @@ interface Game {
 const gamesData = {
   lottery: [
     { id: 'wingo', name: 'Win Go', path: '/wingo', winningAmount: '₹3,552.00', username: 'Mem****987' },
-    { id: 'trx', name: 'Trx Win Go', path: '/trx', winningAmount: '₹2,236.00', username: 'Mem****939' },
-    { id: 'racing', name: 'Racing', path: '/racing', winningAmount: '₹2,078.00', username: 'Mem****225' },
+    { id: '5d', name: '5D', path: '/5d', winningAmount: '₹2,078.00', username: 'Mem****225' },
     { id: 'k3', name: 'K3', path: '/k3', winningAmount: '₹1,845.00', username: 'Mem****445' },
+    { id: 'trx', name: 'TRX', path: '/trx', winningAmount: '₹2,236.00', username: 'Mem****939' },
+    { id: 'aviator', name: 'Aviator', path: '/aviator', winningAmount: '₹8,999.00', username: 'Aak****939' },
   ],
   original: [
     { id: 'original1', name: 'Original Game 1', path: '/original/1', winningAmount: '₹2,324.00', username: 'Mem****550' },
@@ -751,8 +753,8 @@ const GameSection: React.FC<GameSectionProps> = ({ title, games, onGameClick, is
 };
 
 interface GamesPageProps {
-  onThemeChange: (theme: 'blue' | 'green') => void;
-  currentTheme: 'blue' | 'green';
+  onThemeChange: (theme: keyof typeof themeColors) => void;
+  currentTheme: keyof typeof themeColors;
 }
 
 const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) => {
@@ -1067,54 +1069,7 @@ const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) =>
           </Grid>
         </Box>
 
-        {/* Winning Information Section */}
-        <WinningInfoSection>
-          <WinningInfoTitle variant="h6">
-            Winning Information
-          </WinningInfoTitle>
-          <WinningInfoList>
-            <WinningInfoItem>
-              <Box className="user-avatar">
-                <img src="/path/to/avatar1.jpg" alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Box>
-              <Typography>Mem****783</Typography>
-              <Box className="game-icon">🎮</Box>
-              <Box sx={{ flex: 1 }}>
-                <Typography className="winning-amount">₹5,248.00</Typography>
-                <Typography variant="caption" sx={{ color: themeColors[currentTheme].text }}>
-                  Winning amount
-                </Typography>
-              </Box>
-            </WinningInfoItem>
-            <WinningInfoItem>
-              <Box className="user-avatar">
-                <img src="/path/to/avatar2.jpg" alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Box>
-              <Typography>Mem****335</Typography>
-              <Box className="game-icon">🎲</Box>
-              <Box sx={{ flex: 1 }}>
-                <Typography className="winning-amount">₹8,101.00</Typography>
-                <Typography variant="caption" sx={{ color: themeColors[currentTheme].text }}>
-                  Winning amount
-                </Typography>
-              </Box>
-            </WinningInfoItem>
-            <WinningInfoItem>
-              <Box className="user-avatar">
-                <img src="/path/to/avatar3.jpg" alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </Box>
-              <Typography>Mem****666</Typography>
-              <Box className="game-icon">🎰</Box>
-              <Box sx={{ flex: 1 }}>
-                <Typography className="winning-amount">₹9,202.00</Typography>
-                <Typography variant="caption" sx={{ color: themeColors[currentTheme].text }}>
-                  Winning amount
-                </Typography>
-              </Box>
-            </WinningInfoItem>
-          </WinningInfoList>
-        </WinningInfoSection>
-
+      
         {/* Game Categories Grid */}
         <Box sx={{ mb: 6 }}>
           <GameCategoryGrid>
@@ -1248,6 +1203,53 @@ const GamesPage: React.FC<GamesPageProps> = ({ onThemeChange, currentTheme }) =>
             </Box>
           ))}
         </Box>
+  {/* Winning Information Section */}
+  <WinningInfoSection>
+          <WinningInfoTitle variant="h6">
+            Winning Information
+          </WinningInfoTitle>
+          <WinningInfoList>
+            <WinningInfoItem>
+              <Box className="user-avatar">
+                <img src="/path/to/avatar1.jpg" alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </Box>
+              <Typography>Mem****783</Typography>
+              <Box className="game-icon">🎮</Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography className="winning-amount">₹5,248.00</Typography>
+                <Typography variant="caption" sx={{ color: themeColors[currentTheme].text }}>
+                  Winning amount
+                </Typography>
+              </Box>
+            </WinningInfoItem>
+            <WinningInfoItem>
+              <Box className="user-avatar">
+                <img src="/path/to/avatar2.jpg" alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </Box>
+              <Typography>Mem****335</Typography>
+              <Box className="game-icon">🎲</Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography className="winning-amount">₹8,101.00</Typography>
+                <Typography variant="caption" sx={{ color: themeColors[currentTheme].text }}>
+                  Winning amount
+                </Typography>
+              </Box>
+            </WinningInfoItem>
+            <WinningInfoItem>
+              <Box className="user-avatar">
+                <img src="/path/to/avatar3.jpg" alt="User" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </Box>
+              <Typography>Mem****666</Typography>
+              <Box className="game-icon">🎰</Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography className="winning-amount">₹9,202.00</Typography>
+                <Typography variant="caption" sx={{ color: themeColors[currentTheme].text }}>
+                  Winning amount
+                </Typography>
+              </Box>
+            </WinningInfoItem>
+          </WinningInfoList>
+        </WinningInfoSection>
 
         {/* Today's Earnings Rank Section */}
         <Box sx={{ mb: 6 }}>
