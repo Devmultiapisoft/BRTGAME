@@ -44,6 +44,15 @@ import WinGo from './views/games/WinGo';
 import WinGo3 from './views/games/WinGo3';
 import WinGo5 from './views/games/WinGo5';
 import WinGo10 from './views/games/WinGo10';
+import DailyCommission from './views/commission/DailyCommission';
+import WeeklyBonus from './views/commission/WeeklyBonus';
+import MyTeam from './views/commission/MyTeam';
+import TurnOver from './views/commission/TurnOver';
+import MonthlyRewards from './views/commission/MonthlyRewards';
+import TeamBonus from './views/commission/TeamBonus';
+import K3GamePage from './views/games/K3/K3';
+import Game5D from './views/games/5D/5D';
+
 
 
 // Mobile container wrapper
@@ -161,6 +170,14 @@ const App: React.FC = () => {
                   <Route path="/wingo/3" element={<WinGo3 />} />
                   <Route path="/wingo/5" element={<WinGo5 />} />
                   <Route path="/wingo/10" element={<WinGo10 />} />
+                  <Route path="/daily-commission" element={<DailyCommission/>} />
+                  <Route path="/weekly-bonus" element={<WeeklyBonus />} />
+                  <Route path="/myteam-trade" element={<MyTeam />} />
+                  <Route path="/turnover" element={<TurnOver />} />
+                  <Route path="/monthly-reward" element={<MonthlyRewards/>} />
+                  <Route path='/k3' element={<K3GamePage/>}/>
+                  <Route path='/5D' element={<Game5D/>}></Route>
+                  <Route path="/team-bonus" element={<TeamBonus />} />
                   {/* Add more routes as needed */}
                 </Routes>
               </Container>  

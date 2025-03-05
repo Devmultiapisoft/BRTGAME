@@ -17,6 +17,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import PeopleIcon from '@mui/icons-material/People';
 import { themeColors } from '../../theme';
+import { useNavigate } from 'react-router-dom';
 
 // Animation keyframes
 const pulseAnimation = keyframes`
@@ -87,6 +88,45 @@ const GameBanner = styled(Card)(({ theme }) => ({
 const CommissionPage: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
+
+  const commissionCards = [
+    {
+      icon: <TrendingUpIcon sx={{ fontSize: '32px' }} />,
+      title: 'Daily Commission',
+      route: '/daily-commission'
+    },
+    {
+      icon: <AccountBalanceWalletIcon sx={{ fontSize: '32px' }} />,
+      title: 'Weekly Bonus',
+      route: '/weekly-bonus'
+    },
+    {
+      icon: <PeopleIcon sx={{ fontSize: '32px' }} />,
+      title: 'My Team',
+      route: '/myteam-trade'
+    },
+    {
+      icon: <AccountBalanceWalletIcon sx={{ fontSize: '32px' }} />,
+      title: 'Trade',
+      route: '/myteam-trade'
+    },
+    {
+      icon: <AccountBalanceWalletIcon sx={{ fontSize: '32px' }} />,
+      title: 'Turn Over',
+      route: '/turnover'
+    },
+    {
+      icon: <EmojiEventsIcon sx={{ fontSize: '32px' }} />,
+      title: 'Monthly Rewards',
+      route: '/monthly-reward'
+    },
+    {
+      icon: <PeopleIcon sx={{ fontSize: '32px' }} />,
+      title: 'Team Bonus',
+      route: '/team-bonus'
+    }
+  ];
 
   return (
     <Box>
@@ -106,54 +146,20 @@ const CommissionPage: React.FC = () => {
       <Container maxWidth="lg" sx={{ px: 2 }}>
         {/* Small Commission Cards */}
         <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={3}>
-            <SmallCommissionCard>
-              <CardContent sx={{ p: 1 }}>
-                <Box sx={{ color: '#00FF88', fontSize: '32px', mb: 1 }}>
-                  <TrendingUpIcon sx={{ fontSize: '32px' }} />
-                </Box>
-                <Typography variant="caption" sx={{ color: '#fff' }}>
-                  Daily Commission
-                </Typography>
-              </CardContent>
-            </SmallCommissionCard>
-          </Grid>
-          <Grid item xs={3}>
-            <SmallCommissionCard>
-              <CardContent sx={{ p: 1 }}>
-                <Box sx={{ color: '#00FF88', fontSize: '32px', mb: 1 }}>
-                  <AccountBalanceWalletIcon sx={{ fontSize: '32px' }} />
-                </Box>
-                <Typography variant="caption" sx={{ color: '#fff' }}>
-                  Weekly Bonus
-                </Typography>
-              </CardContent>
-            </SmallCommissionCard>
-          </Grid>
-          <Grid item xs={3}>
-            <SmallCommissionCard>
-              <CardContent sx={{ p: 1 }}>
-                <Box sx={{ color: '#00FF88', fontSize: '32px', mb: 1 }}>
-                  <EmojiEventsIcon sx={{ fontSize: '32px' }} />
-                </Box>
-                <Typography variant="caption" sx={{ color: '#fff' }}>
-                  Monthly Rewards
-                </Typography>
-              </CardContent>
-            </SmallCommissionCard>
-          </Grid>
-          <Grid item xs={3}>
-            <SmallCommissionCard>
-              <CardContent sx={{ p: 1 }}>
-                <Box sx={{ color: '#00FF88', fontSize: '32px', mb: 1 }}>
-                  <PeopleIcon sx={{ fontSize: '32px' }} />
-                </Box>
-                <Typography variant="caption" sx={{ color: '#fff' }}>
-                  Team Bonus
-                </Typography>
-              </CardContent>
-            </SmallCommissionCard>
-          </Grid>
+          {commissionCards.map((card, index) => (
+            <Grid item xs={3} key={index}>
+              <SmallCommissionCard onClick={() => navigate(card.route)}>
+                <CardContent sx={{ p: 1 }}>
+                  <Box sx={{ color: '#00FF88', fontSize: '32px', mb: 1 }}>
+                    {card.icon}
+                  </Box>
+                  <Typography variant="caption" sx={{ color: '#fff' }}>
+                    {card.title}
+                  </Typography>
+                </CardContent>
+              </SmallCommissionCard>
+            </Grid>
+          ))}
         </Grid>
 
         {/* Large Commission Cards */}
@@ -217,3 +223,4 @@ const CommissionPage: React.FC = () => {
 };
 
 export default CommissionPage; 
+
